@@ -25,8 +25,8 @@ def callback(state):
     def decorator(func):
         CALLBACK_MAP[state] = func
 
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
+        def wrapper(self):
+            return func(self)
         return wrapper
     return decorator
 
