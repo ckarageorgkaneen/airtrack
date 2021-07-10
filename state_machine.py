@@ -1,5 +1,6 @@
 import logging
 import random
+import functools
 
 from state import AirtrackState as State
 from pybpodapi.protocol import Bpod
@@ -8,6 +9,8 @@ from pybpodapi.protocol import StateMachine
 # logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+CALLBACK_MAP = {}
 
 
 class AirtrackStateMachineError(Exception):
@@ -19,23 +22,32 @@ def err(message):
     raise AirtrackStateMachineError(message)
 
 
+def callback(state):
+    def decorator(func):
+        CALLBACK_MAP[state] = func
+
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+
 class AirtrackStateMachine:
     def __init__(self, bpod, subject, actuator):
         self._bpod = bpod
         self._sma = StateMachine(self._bpod)
         self._subject = subject
         self._actuator = actuator
-        self._callbacks = {
-            State.INITIATE: None,
-            State.RESET_SUBJECT_LOCATION: self._cb_reset_subject_location,
-            State.ENTER_LANE: self._cb_enter_lane,
-            State.EXIT_LANE: self._cb_exit_lane
+        self.callbacks = {
+            s: functools.partial(f, self)
+            for s, f in CALLBACK_MAP.items()
         }
 
     def __call__(self):
         return self._sma
 
-    def _cb_reset_subject_location(self):
+    @callback(State.RESET_SUBJECT_LOCATION)
+    def _reset_subject_location(self):
         value = random.choice([1, 0])
         self._bpod.manual_override(
             Bpod.ChannelTypes.INPUT,
@@ -43,24 +55,26 @@ class AirtrackStateMachine:
             channel_number=1,
             value=value)
 
-    def _cb_enter_lane(self):
+    @callback(State.ENTER_LANE)
+    def _enter_lane(self):
         print('Entered lane.')
 
-    def _cb_exit_lane(self):
+    @callback(State.EXIT_LANE)
+    def _exit_lane(self):
         print('Exited lane.')
 
     def setup(self):
         self._sma.add_state(
             State.INITIATE,
             state_timer=0.1,
-            callback=self._callbacks[State.INITIATE],
+            callback=self.callbacks.get(State.INITIATE),
             state_change_conditions={
                 Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION,
             })
         self._sma.add_state(
             state_name=State.RESET_SUBJECT_LOCATION,
             state_timer=0.1,
-            callback=self._callbacks[State.RESET_SUBJECT_LOCATION],
+            callback=self.callbacks.get(State.RESET_SUBJECT_LOCATION),
             state_change_conditions={
                 Bpod.Events.BNC1High: State.ENTER_LANE,
                 Bpod.Events.BNC1Low: State.EXIT_LANE
@@ -68,7 +82,7 @@ class AirtrackStateMachine:
         self._sma.add_state(
             state_name=State.ENTER_LANE,
             state_timer=0.1,
-            callback=self._callbacks[State.ENTER_LANE],
+            callback=self.callbacks.get(State.ENTER_LANE),
             state_change_conditions={
                 Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION},
             output_actions=[
@@ -78,7 +92,7 @@ class AirtrackStateMachine:
         self._sma.add_state(
             state_name=State.EXIT_LANE,
             state_timer=0.1,
-            callback=self._callbacks[State.EXIT_LANE],
+            callback=self.callbacks.get(State.EXIT_LANE),
             state_change_conditions={
                 Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION},
             output_actions=[
