@@ -25,8 +25,8 @@ class AirtrackSubject:
 
     def is_inside_lane(self):
         try:
-            is_inside_lane = self._camera.detect_object(
-                AirtrackCameraObject.MOUSE)
+            is_inside_lane = not self._camera.detect_object(
+                AirtrackCameraObject.MOUSE.name)
         except AirtrackCameraError as e:
             err(str(e))
         return is_inside_lane
