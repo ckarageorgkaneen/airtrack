@@ -5,7 +5,6 @@ from camera import AirtrackCamera
 from camera import AirtrackCameraError
 from camera_object import AirtrackCameraObject
 
-# logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 

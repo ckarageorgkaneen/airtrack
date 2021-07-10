@@ -5,7 +5,6 @@ from state import AirtrackState as State
 from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
 
-# logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
