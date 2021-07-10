@@ -1,7 +1,22 @@
+import logging
 import random
+
 from state import AirtrackState as State
 from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
+
+# logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
+class AirtrackStateMachineError(Exception):
+    """AirtrackStateMachine error"""
+
+
+def err(message):
+    logger.debug(message)
+    raise AirtrackStateMachineError(message)
 
 
 class AirtrackStateMachine:
