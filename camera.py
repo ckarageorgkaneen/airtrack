@@ -1,6 +1,7 @@
 """Interface for the Airtrack Camera"""
 import logging
-from enum import Enum
+
+from camera_objects import AirtrackCameraObjects
 
 from pixy import PixyCam
 from pixy import PixyCamError
@@ -8,11 +9,6 @@ from pixy import PixyCamError
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-
-class AirtrackCameraObjects(Enum):
-    GREEN_DOT = 1
-    MOUSE = 2
 
 
 class AirtrackCameraError(Exception):
