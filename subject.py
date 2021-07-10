@@ -3,7 +3,7 @@ import logging
 
 from camera import AirtrackCamera
 from camera import AirtrackCameraError
-from camera_objects import AirtrackCameraObjects
+from camera_object import AirtrackCameraObject
 
 # logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ class AirtrackSubject:
     def is_inside_lane(self):
         try:
             is_inside_lane = self._camera.detect_object(
-                AirtrackCameraObjects.MOUSE)
+                AirtrackCameraObject.MOUSE)
         except AirtrackCameraError as e:
             err(str(e))
         return is_inside_lane

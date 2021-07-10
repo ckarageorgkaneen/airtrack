@@ -1,7 +1,7 @@
 """Interface for the Airtrack Camera"""
 import logging
 
-from camera_objects import AirtrackCameraObjects
+from camera_object import AirtrackCameraObject
 
 from pixy import PixyCam
 from pixy import PixyCamError
@@ -26,9 +26,9 @@ class AirtrackCamera:
 
     def detect_object(self, name):
         try:
-            airtrack_obj = AirtrackCameraObjects[name]
+            airtrack_obj = AirtrackCameraObject[name]
         except KeyError:
-            err(f'No such object: {name} in {AirtrackCameraObjects}')
+            err(f'No such object: {name} in {AirtrackCameraObject}')
         try:
             obj_detected = self._pixy_cam.find_targets(
                 [airtrack_obj.value])
