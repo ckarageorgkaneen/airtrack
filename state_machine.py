@@ -47,13 +47,11 @@ class AirtrackStateMachine:
 
     @callback(State.RESET_SUBJECT_LOCATION)
     def _reset_subject_location(self):
-        is_subject_in_lane = self._subject.is_inside_lane()
-        value = int(is_subject_in_lane)
-        self._bpod.manual_override(
-            Bpod.ChannelTypes.INPUT,
-            Bpod.ChannelNames.BNC,
-            channel_number=1,
-            value=value)
+        if self._subject.is_inside_lane():
+            event = Bpod.Events.Serial1_1
+        else:
+            event = Bpod.Events.Serial1_2
+        self._bpod.trigger_event_by_name(event, None)
 
     @callback(State.ENTER_LANE)
     def _enter_lane(self):
@@ -76,8 +74,8 @@ class AirtrackStateMachine:
             state_timer=0.1,
             callback=self.callbacks.get(State.RESET_SUBJECT_LOCATION),
             state_change_conditions={
-                Bpod.Events.BNC1High: State.ENTER_LANE,
-                Bpod.Events.BNC1Low: State.EXIT_LANE
+                Bpod.Events.Serial1_1: State.ENTER_LANE,
+                Bpod.Events.Serial1_2: State.EXIT_LANE
             })
         self._sma.add_state(
             state_name=State.ENTER_LANE,
