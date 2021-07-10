@@ -1,5 +1,4 @@
 import logging
-import random
 import functools
 
 from state import AirtrackState as State
@@ -48,7 +47,8 @@ class AirtrackStateMachine:
 
     @callback(State.RESET_SUBJECT_LOCATION)
     def _reset_subject_location(self):
-        value = random.choice([1, 0])
+        is_subject_in_lane = self._subject.is_inside_lane()
+        value = int(is_subject_in_lane)
         self._bpod.manual_override(
             Bpod.ChannelTypes.INPUT,
             Bpod.ChannelNames.BNC,
