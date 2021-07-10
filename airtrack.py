@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from state_machine import AirtrackStateMachine
 from actuator import AirtrackActuator
-from camera import AirtrackCamera
+from subject import AirtrackSubject
 
 from pybpodapi.protocol import Bpod
 
@@ -9,11 +9,11 @@ from pybpodapi.protocol import Bpod
 class Airtrack:
     def __init__(self, emulate=True):
         self._bpod = Bpod(emulator_mode=emulate)
-        self._camera = AirtrackCamera()
+        self._subject = AirtrackSubject()
         self._actuator = AirtrackActuator()
         self._sma = AirtrackStateMachine(
             self._bpod,
-            self._camera,
+            self._subject,
             self._actuator)
         self._sma.setup()
 

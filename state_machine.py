@@ -5,10 +5,10 @@ from pybpodapi.protocol import StateMachine
 
 
 class AirtrackStateMachine:
-    def __init__(self, bpod, camera, actuator):
+    def __init__(self, bpod, subject, actuator):
         self._bpod = bpod
         self._sma = StateMachine(self._bpod)
-        self._camera = camera
+        self._subject = subject
         self._actuator = actuator
         self._callbacks = {
             State.INITIATE: None,
