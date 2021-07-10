@@ -6,7 +6,7 @@ from camera_objects import AirtrackCameraObjects
 from pixy import PixyCam
 from pixy import PixyCamError
 
-logging.basicConfig()
+# logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
