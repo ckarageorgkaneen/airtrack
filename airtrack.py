@@ -21,10 +21,9 @@ class Airtrack:
         self._bpod.close(ignore_emulator=not self._emulate)
 
     def run(self):
-        sma = self._sma()
         self._bpod.send_state_machine(
-            sma, ignore_emulator=not self._emulate)
-        self._bpod.run_state_machine(sma)
+            self._sma, ignore_emulator=not self._emulate)
+        self._bpod.run_state_machine(self._sma)
 
 
 if __name__ == '__main__':

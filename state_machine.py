@@ -34,19 +34,16 @@ def callback(state):
     return decorator
 
 
-class AirtrackStateMachine:
+class AirtrackStateMachine(StateMachine):
     def __init__(self, bpod):
+        super().__init__(bpod)
         self._bpod = bpod
-        self._sma = StateMachine(self._bpod)
         self._subject = AirtrackSubject()
         self._actuator = AirtrackActuator()
         self.callbacks = {
             s: functools.partial(f, self)
             for s, f in CALLBACK_MAP.items()
         }
-
-    def __call__(self):
-        return self._sma
 
     @callback(State.RESET_SUBJECT_LOCATION)
     def _reset_subject_location(self):
@@ -65,14 +62,14 @@ class AirtrackStateMachine:
         print('Exited lane.')
 
     def setup(self):
-        self._sma.add_state(
+        self.add_state(
             State.INITIATE,
             state_timer=0.1,
             callback=self.callbacks.get(State.INITIATE),
             state_change_conditions={
                 Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION,
             })
-        self._sma.add_state(
+        self.add_state(
             state_name=State.RESET_SUBJECT_LOCATION,
             state_timer=0.1,
             callback=self.callbacks.get(State.RESET_SUBJECT_LOCATION),
@@ -80,7 +77,7 @@ class AirtrackStateMachine:
                 Bpod.Events.Serial1_1: State.ENTER_LANE,
                 Bpod.Events.Serial1_2: State.EXIT_LANE
             })
-        self._sma.add_state(
+        self.add_state(
             state_name=State.ENTER_LANE,
             state_timer=0.1,
             callback=self.callbacks.get(State.ENTER_LANE),
@@ -90,7 +87,7 @@ class AirtrackStateMachine:
                 (Bpod.OutputChannels.BNC1, 255),
                 (Bpod.OutputChannels.BNC2, 0),
             ])
-        self._sma.add_state(
+        self.add_state(
             state_name=State.EXIT_LANE,
             state_timer=0.1,
             callback=self.callbacks.get(State.EXIT_LANE),
