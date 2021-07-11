@@ -2,8 +2,6 @@
 import atexit
 
 from state_machine import AirtrackStateMachine
-from actuator import AirtrackActuator
-from subject import AirtrackSubject
 
 from pybpodapi.protocol import Bpod
 
@@ -16,12 +14,7 @@ class Airtrack:
             self._bpod.open()
         # Register exit handler
         atexit.register(self.close)
-        self._subject = AirtrackSubject()
-        self._actuator = AirtrackActuator()
-        self._sma = AirtrackStateMachine(
-            self._bpod,
-            self._subject,
-            self._actuator)
+        self._sma = AirtrackStateMachine(self._bpod)
         self._sma.setup()
 
     def close(self):

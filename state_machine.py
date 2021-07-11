@@ -1,9 +1,13 @@
 import logging
 import functools
 
-from state import AirtrackState as State
 from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
+
+from state import AirtrackState as State
+from actuator import AirtrackActuator
+from subject import AirtrackSubject
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -31,11 +35,11 @@ def callback(state):
 
 
 class AirtrackStateMachine:
-    def __init__(self, bpod, subject, actuator):
+    def __init__(self, bpod):
         self._bpod = bpod
         self._sma = StateMachine(self._bpod)
-        self._subject = subject
-        self._actuator = actuator
+        self._subject = AirtrackSubject()
+        self._actuator = AirtrackActuator()
         self.callbacks = {
             s: functools.partial(f, self)
             for s, f in CALLBACK_MAP.items()
