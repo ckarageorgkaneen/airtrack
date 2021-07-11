@@ -50,7 +50,7 @@ class AirtrackStateMachine:
             event = Bpod.Events.Serial1_1
         else:
             event = Bpod.Events.Serial1_2
-        self._bpod.trigger_event_by_name(event, None)
+        self._bpod.trigger_event_by_name(event, 255)
 
     @callback(State.ENTER_LANE)
     def _enter_lane(self):
