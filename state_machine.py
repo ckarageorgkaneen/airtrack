@@ -56,10 +56,12 @@ class AirtrackStateMachine(StateMachine):
     @callback(State.ENTER_LANE)
     def _enter_lane(self):
         print('Entered lane.')
+        self._actuator.push()
 
     @callback(State.EXIT_LANE)
     def _exit_lane(self):
         print('Exited lane.')
+        self._actuator.pull()
 
     def setup(self):
         self.add_state(
