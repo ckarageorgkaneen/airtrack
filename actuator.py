@@ -136,9 +136,11 @@ class AirtrackActuator:
         self._trigger(self.STATE.AT_REST)
 
     def push(self):
+        self.rest()
         self._trigger(self.STATE.PUSHING)
 
     def pull(self, block=False):
+        self.rest()
         self._trigger(self.STATE.PULLING)
         self._reset_peek_times()
         if block:
