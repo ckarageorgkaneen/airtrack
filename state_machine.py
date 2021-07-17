@@ -39,7 +39,7 @@ class AirtrackStateMachine(StateMachine):
         super().__init__(bpod)
         self._bpod = bpod
         self._subject = AirtrackSubject()
-        self._actuator = AirtrackActuator()
+        self._actuator = AirtrackActuator(self._bpod)
         self.callbacks = {
             s: functools.partial(f, self)
             for s, f in CALLBACK_MAP.items()
