@@ -12,18 +12,19 @@ class Airtrack:
         self._emulate = emulate
         if not self._emulate:
             self._bpod.open()
-        # Register exit handler
-        atexit.register(self.close)
         self._sma = AirtrackStateMachine(self._bpod)
         self._sma.setup()
-
-    def close(self):
-        self._bpod.close(ignore_emulator=not self._emulate)
+        # Register exit handler
+        atexit.register(self.close)
 
     def run(self):
         self._bpod.send_state_machine(
             self._sma, ignore_emulator=not self._emulate)
         self._bpod.run_state_machine(self._sma)
+
+    def close(self):
+        self._sma.clean_up()
+        self._bpod.close(ignore_emulator=not self._emulate)
 
 
 if __name__ == '__main__':

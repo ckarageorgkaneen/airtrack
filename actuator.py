@@ -163,3 +163,6 @@ class AirtrackActuator:
             self.push()
             self._peek_push_elapsed_time = time.time() - \
                 self._peek_push_start_time
+
+    def reset(self):
+        self.pull()

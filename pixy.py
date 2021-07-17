@@ -6,7 +6,6 @@ For more, see: https://pixycam.com/pixy2/
 import sys
 import logging
 import functools
-import atexit
 import signal
 
 logger = logging.getLogger(__name__)
@@ -31,8 +30,6 @@ class PixyCam:
         self.__pixy = None
         self.__blocks = None
         self._initiated = False
-        # Register exit handler
-        atexit.register(self._close)
         # Register segmentation fault handler
         signal.signal(signal.SIGSEGV, functools.partial(
             err, self.CONNECT_ERROR_MSG))
@@ -55,10 +52,6 @@ class PixyCam:
         if self.__blocks is None:
             self.__blocks = self._pixy.BlockArray(self.MAX_BLOCKS)
         return self.__blocks
-
-    def _close(self):
-        if self._initiated:
-            self._toggle_lamp(on=False)
 
     def _toggle_lamp(self, on=True):
         self._pixy.set_lamp(int(on), 0)
@@ -83,3 +76,7 @@ class PixyCam:
         if found_targets:
             logger.debug(f'Found targets: {found_targets}')
         return signatures == found_targets
+
+    def close(self):
+        if self._initiated:
+            self._toggle_lamp(on=False)

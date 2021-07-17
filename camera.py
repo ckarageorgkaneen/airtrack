@@ -40,3 +40,6 @@ class AirtrackCamera:
         if detect_any_object:
             return any(objects_detected)
         return all(objects_detected)
+
+    def close(self):
+        self._pixy_cam.close()

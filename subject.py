@@ -29,3 +29,6 @@ class AirtrackSubject:
         except AirtrackCameraError as e:
             err(str(e))
         return is_inside_lane
+
+    def clean_up(self):
+        self._camera.close()

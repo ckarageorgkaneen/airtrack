@@ -99,3 +99,7 @@ class AirtrackStateMachine(StateMachine):
                 (Bpod.OutputChannels.BNC1, 0),
                 (Bpod.OutputChannels.BNC2, 255),
             ])
+
+    def clean_up(self):
+        self._subject.clean_up()
+        self._actuator.reset()
