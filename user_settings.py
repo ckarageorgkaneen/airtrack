@@ -2,7 +2,6 @@ import datetime
 import time
 import logging
 
-PYBPOD_API_LOG_LEVEL = logging.INFO
 PYBPOD_API_LOG_LEVEL = logging.DEBUG
 PYBPOD_API_LOG_FILE = 'pybpod-api.log'
 
@@ -11,7 +10,7 @@ PYBPOD_API_STREAM2STDOUT = False
 # accept commands from the stdin
 PYBPOD_API_ACCEPT_STDIN = False
 
-PYBPOD_SESSION_PATH = '/home/csk/Desktop/PYBPOD_EMULATOR_EXAMPLES_SESSION'
+PYBPOD_SESSION_PATH = '/home/csk/Desktop/AIRTRACK_SESSION'
 PYBPOD_SESSION = datetime.datetime.fromtimestamp(
     time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
@@ -27,8 +26,7 @@ EMULATOR_BPOD_MACHINE_TYPE = 3
 
 BPOD_BNC_PORTS_ENABLED = [True, True]
 BPOD_WIRED_PORTS_ENABLED = [True, True]
-BPOD_BEHAVIOR_PORTS_ENABLED = \
-    [True, True, True, False, False, False, False, False]
+BPOD_BEHAVIOR_PORTS_ENABLED = [True, True, True, True, True, True, True, True]
 
 PYBPOD_NET_PORT = None
 PYBPOD_BAUDRATE = 1312500
