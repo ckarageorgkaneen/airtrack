@@ -20,6 +20,7 @@ class AirtrackActuator:
     def __init__(self, bpod):
         self._bpod = bpod
         self._current_state = self.STATE.AT_REST
+        self._peek_enabled = True
         self.__peek_push_start_time = None
         self.__peek_push_elapsed_time = None
         self.__peek_push_timeout = None
@@ -98,11 +99,12 @@ class AirtrackActuator:
             self.__peek_at_rest_elapsed_time = value
 
     def _reset_peek_times(self):
-        # TODO add more
-        self._peek_push_start_time = None
-        self._peek_push_elapsed_time = None
-        self._peek_push_timeout = None
-        self._peek_at_rest_timeout = None
+        self.__peek_push_start_time = None
+        self.__peek_push_elapsed_time = None
+        self.__peek_push_timeout = None
+        self.__peek_at_rest_start_time = None
+        self.__peek_at_rest_elapsed_time = None
+        self.__peek_at_rest_timeout = None
 
     def _peek_push_timed_out(self):
         return self._peek_push_elapsed_time >= self._peek_push_timeout
@@ -152,9 +154,10 @@ class AirtrackActuator:
         self._trigger(self.STATE.PUSHING)
 
     def pull(self, block=False):
+        self._reset_peek_times()
+        self._peek_enabled = True
         self.rest()
         self._trigger(self.STATE.PULLING)
-        self._reset_peek_times()
         if block:
             time.sleep(self.PULL_BLOCKING_WAIT)
 
@@ -167,12 +170,13 @@ class AirtrackActuator:
         at_rest_timed_out = self._peek_at_rest_timed_out()
         if at_rest_timed_out:
             self.pull()
+            self._peek_enabled = False
         elif push_timed_out:
             self._peek_at_rest_start_time = time.time()
             self.rest()
             self._peek_at_rest_elapsed_time = time.time() - \
                 self._peek_at_rest_start_time
-        else:
+        elif self._peek_enabled:
             self._peek_push_start_time = time.time()
             self.push()
             self._peek_push_elapsed_time = time.time() - \

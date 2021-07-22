@@ -2,5 +2,5 @@ from enum import Enum
 
 
 class AirtrackCameraObject(Enum):
-    GREEN_DOT = 1
-    MOUSE = 2
+    MOUSE_SIG_1 = 1
+    MOUSE_SIG_2 = 2
