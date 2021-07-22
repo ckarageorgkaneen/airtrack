@@ -58,7 +58,7 @@ class AirtrackStateMachine(StateMachine):
 
     @callback(State.ENTER_LANE)
     def _enter_lane(self):
-        self._actuator.push()
+        self._actuator.peek(push_timeout=3, at_rest_timeout=3)
 
     @callback(State.EXIT_LANE)
     def _exit_lane(self):
