@@ -35,6 +35,9 @@ def callback(state):
 
 
 class AirtrackStateMachine(StateMachine):
+    DEFAULT_INIT_STATE_TIMER = 3
+    DEFAULT_TRANSITION_TIMER = 0.1
+
     def __init__(self, bpod):
         super().__init__(bpod)
         self._bpod = bpod
@@ -64,14 +67,14 @@ class AirtrackStateMachine(StateMachine):
     def setup(self):
         self.add_state(
             State.INITIATE,
-            state_timer=0.1,
+            state_timer=self.DEFAULT_INIT_STATE_TIMER,
             callback=self.callbacks.get(State.INITIATE),
             state_change_conditions={
                 Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION,
             })
         self.add_state(
             state_name=State.RESET_SUBJECT_LOCATION,
-            state_timer=0.1,
+            state_timer=self.DEFAULT_TRANSITION_TIMER,
             callback=self.callbacks.get(State.RESET_SUBJECT_LOCATION),
             state_change_conditions={
                 Bpod.Events.Serial1_1: State.ENTER_LANE,
@@ -79,24 +82,16 @@ class AirtrackStateMachine(StateMachine):
             })
         self.add_state(
             state_name=State.ENTER_LANE,
-            state_timer=0.1,
+            state_timer=self.DEFAULT_TRANSITION_TIMER,
             callback=self.callbacks.get(State.ENTER_LANE),
             state_change_conditions={
-                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION},
-            output_actions=[
-                (Bpod.OutputChannels.BNC1, 255),
-                (Bpod.OutputChannels.BNC2, 0),
-            ])
+                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION})
         self.add_state(
             state_name=State.EXIT_LANE,
-            state_timer=0.1,
+            state_timer=self.DEFAULT_TRANSITION_TIMER,
             callback=self.callbacks.get(State.EXIT_LANE),
             state_change_conditions={
-                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION},
-            output_actions=[
-                (Bpod.OutputChannels.BNC1, 0),
-                (Bpod.OutputChannels.BNC2, 255),
-            ])
+                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION})
 
     def clean_up(self):
         self._subject.clean_up()
