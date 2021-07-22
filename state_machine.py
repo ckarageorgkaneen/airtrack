@@ -48,8 +48,8 @@ class AirtrackStateMachine(StateMachine):
             for s, f in CALLBACK_MAP.items()
         }
 
-    @callback(State.RESET_SUBJECT_LOCATION)
-    def _reset_subject_location(self):
+    @callback(State.QUERY_SUBJECT_LOCATION)
+    def _query_subject_location(self):
         if self._subject.is_inside_lane():
             event = Bpod.Events.Serial1_1
         else:
@@ -70,12 +70,12 @@ class AirtrackStateMachine(StateMachine):
             state_timer=self.DEFAULT_INIT_STATE_TIMER,
             callback=self.callbacks.get(State.INITIATE),
             state_change_conditions={
-                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION,
+                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION,
             })
         self.add_state(
-            state_name=State.RESET_SUBJECT_LOCATION,
+            state_name=State.QUERY_SUBJECT_LOCATION,
             state_timer=self.DEFAULT_TRANSITION_TIMER,
-            callback=self.callbacks.get(State.RESET_SUBJECT_LOCATION),
+            callback=self.callbacks.get(State.QUERY_SUBJECT_LOCATION),
             state_change_conditions={
                 Bpod.Events.Serial1_1: State.ENTER_LANE,
                 Bpod.Events.Serial1_2: State.EXIT_LANE
@@ -85,13 +85,13 @@ class AirtrackStateMachine(StateMachine):
             state_timer=self.DEFAULT_TRANSITION_TIMER,
             callback=self.callbacks.get(State.ENTER_LANE),
             state_change_conditions={
-                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION})
+                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION})
         self.add_state(
             state_name=State.EXIT_LANE,
             state_timer=self.DEFAULT_TRANSITION_TIMER,
             callback=self.callbacks.get(State.EXIT_LANE),
             state_change_conditions={
-                Bpod.Events.Tup: State.RESET_SUBJECT_LOCATION})
+                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION})
 
     def clean_up(self):
         self._subject.clean_up()
