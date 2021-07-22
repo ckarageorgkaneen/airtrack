@@ -23,8 +23,9 @@ class AirtrackActuator:
         self.__peek_push_start_time = None
         self.__peek_push_elapsed_time = None
         self.__peek_push_timeout = None
-        self.__peek_at_rest_timeout = None
+        self.__peek_at_rest_start_time = None
         self.__peek_at_rest_elapsed_time = None
+        self.__peek_at_rest_timeout = None
 
     @property
     def _peek_push_start_time(self):
@@ -60,6 +61,17 @@ class AirtrackActuator:
             self.__peek_push_timeout = None
         elif self._peek_push_timeout is None:
             self.__peek_push_timeout = value
+
+    @property
+    def _peek_at_rest_start_time(self):
+        return self.__peek_at_rest_start_time
+
+    @_peek_at_rest_start_time.setter
+    def _peek_at_rest_start_time(self, value):
+        if value is None:
+            self.__peek_at_rest_start_time = None
+        elif self._peek_at_rest_start_time is None:
+            self.__peek_at_rest_start_time = value
 
     @property
     def _peek_at_rest_timeout(self):
@@ -153,7 +165,7 @@ class AirtrackActuator:
         self._peek_at_rest_elapsed_time = 0
         push_timed_out = self._peek_push_timed_out()
         at_rest_timed_out = self._peek_at_rest_timed_out()
-        if push_timed_out and at_rest_timed_out:
+        if at_rest_timed_out:
             self.pull()
         elif push_timed_out:
             self._peek_at_rest_start_time = time.time()
