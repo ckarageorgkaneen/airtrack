@@ -8,6 +8,8 @@ import logging
 import functools
 import signal
 
+from airtrack.submodules.pixy2.build.python_demos import pixy
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -37,7 +39,6 @@ class PixyCam:
     @property
     def _pixy(self):
         if self.__pixy is None:
-            from pixy2.build.python_demos import pixy
             if pixy.init() == -1:
                 sys.modules.pop('pixy')
                 err(self.CONNECT_ERROR_MSG)

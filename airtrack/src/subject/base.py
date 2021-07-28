@@ -1,9 +1,9 @@
 """Interface for the Airtrack subject (mouse)"""
 import logging
 
-from camera import AirtrackCamera
-from camera import AirtrackCameraError
-from camera_object import AirtrackCameraObject
+from airtrack.src.camera.base import AirtrackCamera
+from airtrack.src.camera.base import AirtrackCameraError
+from airtrack.src.definitions.camera import AirtrackCameraObject
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

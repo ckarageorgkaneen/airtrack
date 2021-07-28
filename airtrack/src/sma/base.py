@@ -1,13 +1,12 @@
 import logging
 import functools
 
+from airtrack.src.actuator.base import AirtrackActuator
+from airtrack.src.subject.base import AirtrackSubject
+from airtrack.src.definitions.sma import AirtrackState as State
+
 from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
-
-from state import AirtrackState as State
-from actuator import AirtrackActuator
-from subject import AirtrackSubject
-
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

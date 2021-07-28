@@ -1,13 +1,8 @@
 import time
-from enum import Enum
+
+from airtrack.src.definitions.actuator import AirtrackActuatorState
 
 from pybpodapi.protocol import Bpod
-
-
-class AirtrackActuatorState(Enum):
-    AT_REST = 0
-    PUSHING = 1
-    PULLING = 2
 
 
 class AirtrackActuator:

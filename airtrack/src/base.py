@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
 import atexit
 
-from state_machine import AirtrackStateMachine
+from airtrack.src.sma.base import AirtrackStateMachine
 
 from pybpodapi.protocol import Bpod
 
@@ -25,7 +24,3 @@ class Airtrack:
     def close(self):
         self._sma.clean_up()
         self._bpod.close(ignore_emulator=not self._emulate)
-
-
-if __name__ == '__main__':
-    Airtrack(emulate=False).run()

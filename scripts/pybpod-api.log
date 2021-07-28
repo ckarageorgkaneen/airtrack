@@ -1,0 +1,97 @@
+28/07/2021 11:42:28 | DEBUG | pybpodapi.bpod.hardware.channels | setup_input_channels | event_names: ['Serial1_1', 'Serial1_2', 'Serial1_3', 'Serial1_4', 'Serial1_5', 'Serial1_6', 'Serial1_7', 'Serial1_8', 'Serial1_9', 'Serial1_10', 'Serial1_11', 'Serial1_12', 'Serial1_13', 'Serial1_14', 'Serial1_15', 'Serial2_1', 'Serial2_2', 'Serial2_3', 'Serial2_4', 'Serial2_5', 'Serial2_6', 'Serial2_7', 'Serial2_8', 'Serial2_9', 'Serial2_10', 'Serial2_11', 'Serial2_12', 'Serial2_13', 'Serial2_14', 'Serial2_15', 'Serial3_1', 'Serial3_2', 'Serial3_3', 'Serial3_4', 'Serial3_5', 'Serial3_6', 'Serial3_7', 'Serial3_8', 'Serial3_9', 'Serial3_10', 'Serial3_11', 'Serial3_12', 'Serial3_13', 'Serial3_14', 'Serial3_15', 'Serial4_1', 'Serial4_2', 'Serial4_3', 'Serial4_4', 'Serial4_5', 'Serial4_6', 'Serial4_7', 'Serial4_8', 'Serial4_9', 'Serial4_10', 'Serial4_11', 'Serial4_12', 'Serial4_13', 'Serial4_14', 'Serial4_15', 'Serial5_1', 'Serial5_2', 'Serial5_3', 'Serial5_4', 'Serial5_5', 'Serial5_6', 'Serial5_7', 'Serial5_8', 'Serial5_9', 'Serial5_10', 'Serial5_11', 'Serial5_12', 'Serial5_13', 'Serial5_14', 'Serial5_15', 'SoftCode1', 'SoftCode2', 'SoftCode3', 'SoftCode4', 'SoftCode5', 'SoftCode6', 'SoftCode7', 'SoftCode8', 'SoftCode9', 'SoftCode10', 'SoftCode11', 'SoftCode12', 'SoftCode13', 'SoftCode14', 'SoftCode15', 'BNC1High', 'BNC1Low', 'BNC2High', 'BNC2Low', 'Port1In', 'Port1Out', 'Port2In', 'Port2Out', 'Port3In', 'Port3Out', 'Port4In', 'Port4Out', 'GlobalTimer1_Start', 'GlobalTimer2_Start', 'GlobalTimer3_Start', 'GlobalTimer4_Start', 'GlobalTimer5_Start', 'GlobalTimer6_Start', 'GlobalTimer7_Start', 'GlobalTimer8_Start', 'GlobalTimer9_Start', 'GlobalTimer10_Start', 'GlobalTimer11_Start', 'GlobalTimer12_Start', 'GlobalTimer13_Start', 'GlobalTimer14_Start', 'GlobalTimer15_Start', 'GlobalTimer16_Start', 'GlobalTimer1_End', 'GlobalTimer2_End', 'GlobalTimer3_End', 'GlobalTimer4_End', 'GlobalTimer5_End', 'GlobalTimer6_End', 'GlobalTimer7_End', 'GlobalTimer8_End', 'GlobalTimer9_End', 'GlobalTimer10_End', 'GlobalTimer11_End', 'GlobalTimer12_End', 'GlobalTimer13_End', 'GlobalTimer14_End', 'GlobalTimer15_End', 'GlobalTimer16_End', 'GlobalCounter1_End', 'GlobalCounter2_End', 'GlobalCounter3_End', 'GlobalCounter4_End', 'GlobalCounter5_End', 'GlobalCounter6_End', 'GlobalCounter7_End', 'GlobalCounter8_End', 'Condition1', 'Condition2', 'Condition3', 'Condition4', 'Condition5', 'Condition6', 'Condition7', 'Condition8', 'Condition9', 'Condition10', 'Condition11', 'Condition12', 'Condition13', 'Condition14', 'Condition15', 'Condition16', 'Tup']
+28/07/2021 11:42:28 | DEBUG | pybpodapi.bpod.hardware.channels | setup_input_channels | events_positions: <pybpodapi.bpod.hardware.channels.EventsPositions object at 0x7f18d8b08be0>
+28/07/2021 11:42:28 | DEBUG | pybpodapi.bpod.hardware.channels | setup_output_channels | output_channel_names: ['Serial1', 'Serial2', 'Serial3', 'Serial4', 'Serial5', 'SoftCode', 'BNC1', 'BNC2', 'PWM1', 'PWM2', 'PWM3', 'PWM4', 'Valve1', 'Valve2', 'Valve3', 'Valve4', 'GlobalTimerTrig', 'GlobalTimerCancel', 'GlobalCounterReset']
+28/07/2021 11:42:28 | DEBUG | pybpodapi.bpod.hardware.hardware | setup | SMA Channels
+
+****************** EVENTS ******************
+  0 : Serial1_1                 1 : Serial1_2                 2 : Serial1_3               
+  3 : Serial1_4                 4 : Serial1_5                 5 : Serial1_6               
+  6 : Serial1_7                 7 : Serial1_8                 8 : Serial1_9               
+  9 : Serial1_10               10 : Serial1_11               11 : Serial1_12              
+ 12 : Serial1_13               13 : Serial1_14               14 : Serial1_15              
+ 15 : Serial2_1                16 : Serial2_2                17 : Serial2_3               
+ 18 : Serial2_4                19 : Serial2_5                20 : Serial2_6               
+ 21 : Serial2_7                22 : Serial2_8                23 : Serial2_9               
+ 24 : Serial2_10               25 : Serial2_11               26 : Serial2_12              
+ 27 : Serial2_13               28 : Serial2_14               29 : Serial2_15              
+ 30 : Serial3_1                31 : Serial3_2                32 : Serial3_3               
+ 33 : Serial3_4                34 : Serial3_5                35 : Serial3_6               
+ 36 : Serial3_7                37 : Serial3_8                38 : Serial3_9               
+ 39 : Serial3_10               40 : Serial3_11               41 : Serial3_12              
+ 42 : Serial3_13               43 : Serial3_14               44 : Serial3_15              
+ 45 : Serial4_1                46 : Serial4_2                47 : Serial4_3               
+ 48 : Serial4_4                49 : Serial4_5                50 : Serial4_6               
+ 51 : Serial4_7                52 : Serial4_8                53 : Serial4_9               
+ 54 : Serial4_10               55 : Serial4_11               56 : Serial4_12              
+ 57 : Serial4_13               58 : Serial4_14               59 : Serial4_15              
+ 60 : Serial5_1                61 : Serial5_2                62 : Serial5_3               
+ 63 : Serial5_4                64 : Serial5_5                65 : Serial5_6               
+ 66 : Serial5_7                67 : Serial5_8                68 : Serial5_9               
+ 69 : Serial5_10               70 : Serial5_11               71 : Serial5_12              
+ 72 : Serial5_13               73 : Serial5_14               74 : Serial5_15              
+ 75 : SoftCode1                76 : SoftCode2                77 : SoftCode3               
+ 78 : SoftCode4                79 : SoftCode5                80 : SoftCode6               
+ 81 : SoftCode7                82 : SoftCode8                83 : SoftCode9               
+ 84 : SoftCode10               85 : SoftCode11               86 : SoftCode12              
+ 87 : SoftCode13               88 : SoftCode14               89 : SoftCode15              
+ 90 : BNC1High                 91 : BNC1Low                  92 : BNC2High                
+ 93 : BNC2Low                  94 : Port1In                  95 : Port1Out                
+ 96 : Port2In                  97 : Port2Out                 98 : Port3In                 
+ 99 : Port3Out                100 : Port4In                 101 : Port4Out                
+102 : GlobalTimer1_Start      103 : GlobalTimer2_Start      104 : GlobalTimer3_Start      
+105 : GlobalTimer4_Start      106 : GlobalTimer5_Start      107 : GlobalTimer6_Start      
+108 : GlobalTimer7_Start      109 : GlobalTimer8_Start      110 : GlobalTimer9_Start      
+111 : GlobalTimer10_Start     112 : GlobalTimer11_Start     113 : GlobalTimer12_Start     
+114 : GlobalTimer13_Start     115 : GlobalTimer14_Start     116 : GlobalTimer15_Start     
+117 : GlobalTimer16_Start     118 : GlobalTimer1_End        119 : GlobalTimer2_End        
+120 : GlobalTimer3_End        121 : GlobalTimer4_End        122 : GlobalTimer5_End        
+123 : GlobalTimer6_End        124 : GlobalTimer7_End        125 : GlobalTimer8_End        
+126 : GlobalTimer9_End        127 : GlobalTimer10_End       128 : GlobalTimer11_End       
+129 : GlobalTimer12_End       130 : GlobalTimer13_End       131 : GlobalTimer14_End       
+132 : GlobalTimer15_End       133 : GlobalTimer16_End       134 : GlobalCounter1_End      
+135 : GlobalCounter2_End      136 : GlobalCounter3_End      137 : GlobalCounter4_End      
+138 : GlobalCounter5_End      139 : GlobalCounter6_End      140 : GlobalCounter7_End      
+141 : GlobalCounter8_End      142 : Condition1              143 : Condition2              
+144 : Condition3              145 : Condition4              146 : Condition5              
+147 : Condition6              148 : Condition7              149 : Condition8              
+150 : Condition9              151 : Condition10             152 : Condition11             
+153 : Condition12             154 : Condition13             155 : Condition14             
+156 : Condition15             157 : Condition16             158 : Tup                     
+
+
+****************** INPUT CHANNELS ******************
+  0 : Serial1                   1 : Serial2                   2 : Serial3                 
+  3 : Serial4                   4 : Serial5                   5 : USB1                    
+  6 : BNC1                      7 : BNC2                      8 : Port1                   
+  9 : Port2                    10 : Port3                    11 : Port4                   
+ 12 : GlobalTimer1             13 : GlobalTimer2             14 : GlobalTimer3            
+ 15 : GlobalTimer4             16 : GlobalTimer5             17 : GlobalTimer6            
+ 18 : GlobalTimer7             19 : GlobalTimer8             20 : GlobalTimer9            
+ 21 : GlobalTimer10            22 : GlobalTimer11            23 : GlobalTimer12           
+ 24 : GlobalTimer13            25 : GlobalTimer14            26 : GlobalTimer15           
+ 27 : GlobalTimer16           
+
+****************** OUTPUT CHANNELS ******************
+  0 : Serial1                   1 : Serial2                   2 : Serial3                 
+  3 : Serial4                   4 : Serial5                   5 : SoftCode                
+  6 : BNC1                      7 : BNC2                      8 : PWM1                    
+  9 : PWM2                     10 : PWM3                     11 : PWM4                    
+ 12 : Valve1                   13 : Valve2                   14 : Valve3                  
+ 15 : Valve4                   16 : GlobalTimerTrig          17 : GlobalTimerCancel       
+ 18 : GlobalCounterReset      
+
+
+28/07/2021 11:42:28 | DEBUG | pybpodapi.bpod.hardware.hardware | setup | Hardware Configuration
+Max states: 256
+Cycle period: 100
+Cycle frequency: 10000
+Number of events per serial channel: 90
+Number of global timers: 16
+Number of global counters: 8
+Number of conditions: 16
+Inputs (12): UUUUUXBBPPPP
+Outputs (16): UUUUUXBBPPPPVVVV
+Enabled inputs (6): [0, 0, 0, 0, 0, 0, True, True, True, True, True, True]
+
+28/07/2021 11:42:28 | INFO | pybpodapi.bpod.bpod_base | open | Starting Bpod
+28/07/2021 11:42:28 | DEBUG | pybpodapi.bpod.bpod_com_protocol | _bpodcom_connect | Connecting on port: /dev/ttyACM0

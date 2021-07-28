@@ -1,10 +1,9 @@
 """Interface for the Airtrack Camera"""
 import logging
 
-from camera_object import AirtrackCameraObject
-
-from pixy import PixyCam
-from pixy import PixyCamError
+from airtrack.src.camera.pixy import PixyCam
+from airtrack.src.camera.pixy import PixyCamError
+from airtrack.src.definitions.camera import AirtrackCameraObject
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
