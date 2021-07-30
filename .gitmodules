@@ -1,3 +1,4 @@
 [submodule "pixy2"]
 	path = airtrack/submodules/pixy2
 	url = https://github.com/ckarageorgkaneen/pixy2.git
+	ignore = dirty
