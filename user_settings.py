@@ -1,6 +1,8 @@
+import os
 import datetime
 import time
 import logging
+from pathlib import Path
 
 PYBPOD_API_LOG_LEVEL = logging.DEBUG
 PYBPOD_API_LOG_FILE = 'pybpod-api.log'
@@ -10,7 +12,12 @@ PYBPOD_API_STREAM2STDOUT = False
 # accept commands from the stdin
 PYBPOD_API_ACCEPT_STDIN = False
 
-PYBPOD_SESSION_PATH = '/home/csk/Desktop/AIRTRACK_SESSION'
+session_dirname = 'AIRTRACK_SESSIONS'
+homepath = os.environ.get('HOMEPATH') or os.environ.get('HOME')
+SESSION_PATH = os.path.join(homepath, 'Desktop', session_dirname)
+Path(SESSION_PATH).mkdir(parents=True, exist_ok=True)
+
+PYBPOD_SESSION_PATH = SESSION_PATH
 PYBPOD_SESSION = datetime.datetime.fromtimestamp(
     time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
