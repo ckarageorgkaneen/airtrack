@@ -31,12 +31,12 @@ def err(error, logger, message):
     raise error(message)
 
 
-def on_error_raise(error, logger, catch_error=None, message=None):
+def on_error_raise(error, logger, catch_error=Exception, message=None):
     def decorator(func):
         def wrapper(*args, **kwargs):
             try:
                 return func(*args, **kwargs)
-            except catch_error or Exception as e:
+            except catch_error as e:
                 err(error, logger, message or str(e))
         return wrapper
     return decorator
