@@ -4,6 +4,8 @@ import functools
 from airtrack.src.actuator.base import AirtrackActuator
 from airtrack.src.subject.base import AirtrackSubject
 from airtrack.src.definitions.sma import AirtrackState as State
+from airtrack.src.errors import on_error_raise
+from airtrack.src.errors import AirtrackStateMachineError
 
 from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
@@ -11,14 +13,7 @@ from pybpodapi.protocol import StateMachine
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-
-class AirtrackStateMachineError(Exception):
-    """AirtrackStateMachine error"""
-
-
-def err(message):
-    logger.debug(message)
-    raise AirtrackStateMachineError(message)
+handle_error = on_error_raise(AirtrackStateMachineError, logger)
 
 
 def callback(state):
@@ -26,14 +21,6 @@ def callback(state):
         state.callback = func
         return func
     return decorator
-
-def handle_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            err(str(e))
-    return wrapper
 
 
 class AirtrackStateMachine(StateMachine):
@@ -56,7 +43,8 @@ class AirtrackStateMachine(StateMachine):
     @handle_error
     def _query_subject_location(self):
         self._trigger_event_by_name(Bpod.Events.Serial1_1
-            if self._subject.is_inside_lane() else Bpod.Events.Serial1_2)
+                                    if self._subject.is_inside_lane() else
+                                    Bpod.Events.Serial1_2)
 
     @callback(State.ENTER_LANE)
     @handle_error

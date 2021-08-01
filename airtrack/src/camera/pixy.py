@@ -8,17 +8,11 @@ import logging
 import functools
 import signal
 
+from airtrack.src.errors import err
+from airtrack.src.errors import PixyCamError
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-
-class PixyCamError(Exception):
-    """PixyCam error"""
-
-
-def err(message):
-    logger.debug(message)
-    raise PixyCamError(message)
 
 
 class PixyCam:
@@ -32,16 +26,16 @@ class PixyCam:
         self._initiated = False
         # Register segmentation fault handler
         signal.signal(signal.SIGSEGV, functools.partial(
-            err, self.CONNECT_ERROR_MSG))
+            err, PixyCamError, logger, message=self.CONNECT_ERROR_MSG))
 
     @property
     def _pixy(self):
         if self.__pixy is None:
             from airtrack.submodules.pixy2.build.python_demos import pixy
+            self.__pixy = pixy
             if pixy.init() == -1:
                 sys.modules.pop('pixy')
-                err(self.CONNECT_ERROR_MSG)
-            self.__pixy = pixy
+                err(PixyCamError, logger, message=self.CONNECT_ERROR_MSG)
             self.__pixy.change_prog(self.PROGRAM_CCC)
             self._toggle_lamp()
             self._initiated = True

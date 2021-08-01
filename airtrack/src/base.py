@@ -2,30 +2,17 @@ import logging
 import atexit
 
 from airtrack.src.sma.base import AirtrackStateMachine
-from airtrack.src.sma.base import AirtrackStateMachineError
+from airtrack.src.errors import on_error_raise
+from airtrack.src.errors import AirtrackError
+
 
 from pybpodapi.protocol import Bpod
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+handle_error = on_error_raise(AirtrackError, logger)
 
-class AirtrackError(Exception):
-    """Airtrack error"""
-
-
-def err(message):
-    logger.debug(message)
-    raise AirtrackError(message)
-
-
-def handle_error(func):
-    def wrapper(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
-        except Exception as e:
-            err(str(e))
-    return wrapper
 
 class Airtrack:
     def __init__(self, emulate=True):
