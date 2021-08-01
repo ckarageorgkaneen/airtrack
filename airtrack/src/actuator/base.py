@@ -17,7 +17,6 @@ class AirtrackActuator:
     LOW = 0
     HIGH = 255
     STATE = AirtrackActuatorState
-    PULL_BLOCKING_WAIT = 10
 
     def __init__(self, bpod):
         self._bpod = bpod
@@ -156,13 +155,11 @@ class AirtrackActuator:
         self.rest()
         self._trigger(self.STATE.PUSHING)
 
-    def pull(self, block=False):
+    def pull(self):
         self._reset_peek_times()
         self._peek_enabled = True
         self.rest()
         self._trigger(self.STATE.PULLING)
-        if block:
-            time.sleep(self.PULL_BLOCKING_WAIT)
 
     def peek(self, push_timeout, at_rest_timeout=0):
         self._peek_push_timeout = push_timeout
