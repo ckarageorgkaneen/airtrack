@@ -12,6 +12,7 @@ logger.setLevel(logging.DEBUG)
 
 handle_error = on_error_raise(AirtrackActuatorError, logger)
 
+
 class AirtrackActuator:
 
     LOW = 0
