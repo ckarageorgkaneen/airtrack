@@ -1,7 +1,15 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+
+VERSION = '1.0'
+LICENSE = None
+URL = None
 
 setup(
     name='airtrack',
-    version='0.1',
-    packages=find_packages(include=['airtrack']),
+    version=VERSION,
+    packages=['airtrack'],
+    author=['Chris Karageorgiou Kaneen'],
+    author_email='ckarageorgkaneen@gmail.com',
+    license=LICENSE,
+    url=URL,
 )
