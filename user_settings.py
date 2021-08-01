@@ -14,10 +14,10 @@ PYBPOD_API_ACCEPT_STDIN = False
 
 session_dirname = 'AIRTRACK_SESSIONS'
 homepath = os.environ.get('HOMEPATH') or os.environ.get('HOME')
-SESSION_PATH = os.path.join(homepath, 'Desktop', session_dirname)
-Path(SESSION_PATH).mkdir(parents=True, exist_ok=True)
+AIRTRACK_SESSION_PATH = os.path.join(homepath, 'Desktop', session_dirname)
+Path(AIRTRACK_SESSION_PATH).mkdir(parents=True, exist_ok=True)
 
-PYBPOD_SESSION_PATH = SESSION_PATH
+PYBPOD_SESSION_PATH = AIRTRACK_SESSION_PATH
 PYBPOD_SESSION = datetime.datetime.fromtimestamp(
     time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
