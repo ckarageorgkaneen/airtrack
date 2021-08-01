@@ -2,8 +2,8 @@ import logging
 import time
 
 from airtrack.src.definitions.actuator import AirtrackActuatorState
-from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackActuatorError
+from airtrack.src.errors import on_error_raise
 
 from pybpodapi.protocol import Bpod
 
