@@ -5,7 +5,6 @@ from airtrack.src.sma.base import AirtrackStateMachine
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackError
 
-
 from pybpodapi.protocol import Bpod
 
 logger = logging.getLogger()
