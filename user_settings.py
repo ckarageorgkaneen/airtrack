@@ -9,6 +9,10 @@ session_dirname = 'AIRTRACK_SESSIONS'
 homepath = os.environ.get('HOMEPATH') or os.environ.get('HOME')
 AIRTRACK_SESSION_PATH = os.path.join(homepath, 'Desktop', session_dirname)
 Path(AIRTRACK_SESSION_PATH).mkdir(parents=True, exist_ok=True)
+AIRTRACK_PUSH_TIMEOUT = 3
+# Time the actuator should remain at rest
+# before it is pulled back
+AIRTRACK_AT_REST_TIMEOUT = 3
 
 # PyBpod settings
 PYBPOD_API_LOG_LEVEL = logging.DEBUG

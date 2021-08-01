@@ -1,6 +1,8 @@
 import logging
 import functools
 
+import user_settings as settings
+
 from airtrack.src.actuator.base import AirtrackActuator
 from airtrack.src.subject.base import AirtrackSubject
 from airtrack.src.definitions.sma import AirtrackState as State
@@ -51,7 +53,9 @@ class AirtrackStateMachine(StateMachine):
     @callback(State.ENTER_LANE)
     @handle_error
     def _enter_lane(self):
-        self._actuator.peek(push_timeout=3, at_rest_timeout=3)
+        self._actuator.peek(
+            push_timeout=settings.AIRTRACK_PUSH_TIMEOUT,
+            at_rest_timeout=settings.AIRTRACK_AT_REST_TIMEOUT)
 
     @callback(State.EXIT_LANE)
     @handle_error
