@@ -8,7 +8,6 @@ from airtrack.src.errors import AirtrackActuatorError
 from pybpodapi.protocol import Bpod
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 handle_error = on_error_raise(AirtrackActuatorError, logger)
 

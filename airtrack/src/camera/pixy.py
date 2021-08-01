@@ -12,7 +12,6 @@ from airtrack.src.errors import err
 from airtrack.src.errors import PixyCamError
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 
 class PixyCam:

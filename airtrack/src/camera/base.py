@@ -8,7 +8,6 @@ from airtrack.src.errors import PixyCamError
 from airtrack.src.errors import AirtrackCameraError
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 handle_bad_object = on_error_raise(
     AirtrackCameraError,

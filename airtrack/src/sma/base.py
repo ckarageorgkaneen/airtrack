@@ -11,15 +11,17 @@ from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
 
 handle_error = on_error_raise(AirtrackStateMachineError, logger)
 
 
 def callback(state):
     def decorator(func):
-        state.callback = func
-        return func
+        def wrapper(self):
+            logger.debug(f"@@@@@>>>> Calling {state} callback")
+            return func(self)
+        state.callback = wrapper
+        return wrapper
     return decorator
 
 
