@@ -27,6 +27,14 @@ def callback(state):
         return func
     return decorator
 
+def handle_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            err(str(e))
+    return wrapper
+
 
 class AirtrackStateMachine(StateMachine):
     DEFAULT_INIT_STATE_TIMER = 3
@@ -45,21 +53,26 @@ class AirtrackStateMachine(StateMachine):
                 s.callback = None
 
     @callback(State.QUERY_SUBJECT_LOCATION)
+    @handle_error
     def _query_subject_location(self):
-        if self._subject.is_inside_lane():
-            event = Bpod.Events.Serial1_1
-        else:
-            event = Bpod.Events.Serial1_2
-        self._bpod.trigger_event_by_name(event, 255)
+        self._trigger_event_by_name(Bpod.Events.Serial1_1
+            if self._subject.is_inside_lane() else Bpod.Events.Serial1_2)
 
     @callback(State.ENTER_LANE)
+    @handle_error
     def _enter_lane(self):
         self._actuator.peek(push_timeout=3, at_rest_timeout=3)
 
     @callback(State.EXIT_LANE)
+    @handle_error
     def _exit_lane(self):
         self._actuator.pull()
 
+    @handle_error
+    def _trigger_event_by_name(self, event_name):
+        self._bpod.trigger_event_by_name(event_name, 255)
+
+    @handle_error
     def setup(self):
         self.add_state(
             State.INITIATE,
@@ -89,6 +102,7 @@ class AirtrackStateMachine(StateMachine):
             state_change_conditions={
                 Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION})
 
+    @handle_error
     def clean_up(self):
         self._subject.clean_up()
         self._actuator.reset()

@@ -1,8 +1,22 @@
+import logging
 import time
 
 from airtrack.src.definitions.actuator import AirtrackActuatorState
 
 from pybpodapi.protocol import Bpod
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
+class AirtrackActuatorError(Exception):
+    """AirtrackActuator error"""
+
+
+def err(message):
+    logger.debug(message)
+    raise AirtrackActuatorError(message)
+
 
 
 class AirtrackActuator:
@@ -108,12 +122,15 @@ class AirtrackActuator:
         return self._peek_at_rest_elapsed_time >= self._peek_at_rest_timeout
 
     def _trigger_bnc_output(self, channel_number, value):
-        self._bpod.manual_override(
-            channel_type=Bpod.ChannelTypes.OUTPUT,
-            channel_name=Bpod.ChannelNames.BNC,
-            channel_number=channel_number,
-            value=value,
-            ignore_emulator=True)
+        try:
+            self._bpod.manual_override(
+                channel_type=Bpod.ChannelTypes.OUTPUT,
+                channel_name=Bpod.ChannelNames.BNC,
+                channel_number=channel_number,
+                value=value,
+                ignore_emulator=True)
+        except Exception as e:
+            err(str(e))
 
     def _trigger_ok(self, state, desired_state):
         return state == desired_state and self._current_state != desired_state
