@@ -1,7 +1,27 @@
-"""
-Interface for the Pixy2 PixyCam
+"""Airtrack Pixy2 camera module.
 
-For more, see: https://pixycam.com/pixy2/
+This module provides a wrapper interface (PixyCam) for interacting with a
+Pixy2 camera (https://pixycam.com/pixy2/) underlying the camera of the
+Airtrack system.
+
+Example:
+
+    pc = PixyCam()
+
+    # Get detected signatures
+    signatures = pc.get_signatures()
+    print(signatures)
+
+    # Find target signatures
+    target_signatures = [1, 2]
+    found_targets = pc.find_targets(target_signatures)
+
+    if found_targets:
+        print(f'Found signatures: {target_signatures}')
+    else:
+        print(f'Did not find signatures: {target_signatures}')
+
+    pc.close()
 """
 import sys
 import logging
@@ -53,6 +73,10 @@ class PixyCam:
         return self._pixy.ccc_get_blocks(100, self._blocks)
 
     def get_signatures(self):
+        """Return a list of detected signatures.
+
+        :rtype: ``list`` of ``int``
+        """
         nblocks = self._get_blocks()
         signatures = set()
         for i in range(0, nblocks):
@@ -62,6 +86,15 @@ class PixyCam:
         return list(signatures)
 
     def find_targets(self, signatures=None):
+        """Find signatures.
+
+        :keyword  signatures:  A list of Pixy2 cam signatures.
+        :type     signatures:  ``list`` of ``int``
+
+        :return: ``True`` if the given signatures were found,
+            otherwise ``False``
+        :rtype: ``bool``
+        """
         if signatures is None:
             return False
         found_targets = list(set(signatures).intersection(
@@ -71,5 +104,6 @@ class PixyCam:
         return signatures == found_targets
 
     def close(self):
+        """Close Pixy2 cam."""
         if self._initiated:
             self._toggle_lamp(on=False)
