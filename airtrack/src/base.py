@@ -1,3 +1,13 @@
+"""Airtrack base module.
+
+This module provides an interface (Airtrack) for the Airtrack system.
+
+Example:
+
+    airtrack = Airtrack(emulate=False)
+    airtrack.run()
+    airtrack.close()
+"""
 import logging
 import atexit
 
@@ -13,6 +23,8 @@ handle_error = on_error_raise(AirtrackError, logger)
 
 
 class Airtrack:
+    """Airtrack system interface."""
+
     def __init__(self, emulate=True):
         self._bpod = self._Bpod()
         self._emulate = emulate
@@ -50,8 +62,10 @@ class Airtrack:
         self._sma.clean_up()
 
     def run(self):
+        """Run the system."""
         self._bpod_run()
 
     def close(self):
+        """Close the system."""
         self._sma_clean_up()
         self._bpod_close()
