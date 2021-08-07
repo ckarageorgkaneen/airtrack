@@ -1,3 +1,39 @@
+"""Airtrack actuator base module.
+
+This module provides an interface (AirtrackActuator) for interacting with the
+linear actuator of the Airtrack system.
+
+Example:
+
+    import time
+    from pybpodapi.protocol import Bpod
+
+    bpod = Bpod(emulator_mode=True)
+    bpod.open()
+    aa = AirtrackActuator(bpod)
+
+    aa.reset()  # Reset actuator position
+    aa.push()  # Trigger push action
+    time.sleep(3)
+
+    aa.rest()  # Trigger rest action (stop actuator motion)
+    time.sleep(3)
+
+    aa.pull()  # Trigger pull action
+    time.sleep(3)
+
+    # Trigger peek action (must loop), which is
+    # equivalent to the following:
+    # 1. Trigger push action for `push_timeout` seconds
+    # 2. Trigger rest action for `at_rest_timeout` seconds
+    # 3. Trigger pull action
+    push_timeout = 6
+    at_rest_timeout = 3
+    while True:
+        aa.peek(push_timeout=push_timeout,
+                at_rest_timeout=at_rest_timeout)
+
+"""
 import logging
 import time
 
@@ -13,12 +49,16 @@ handle_error = on_error_raise(AirtrackActuatorError, logger)
 
 
 class AirtrackActuator:
-
+    """Airtrack linear actuator interface."""
     LOW = 0
     HIGH = 255
     STATE = AirtrackActuatorState
 
     def __init__(self, bpod):
+        """
+        :keyword  bpod:  A pybpod Bpod object
+        :type     bpod:  :class:``pybpodapi.protocol.Bpod``
+        """
         self._bpod = bpod
         self._current_state = self.STATE.AT_REST
         self._peek_enabled = True
@@ -149,19 +189,41 @@ class AirtrackActuator:
             self._current_state = self.STATE.PULLING
 
     def rest(self):
+        """Trigger an actuator rest action (stop motion)."""
         self._trigger(self.STATE.AT_REST)
 
     def push(self):
+        """Trigger an actuator push action."""
         self.rest()
         self._trigger(self.STATE.PUSHING)
 
     def pull(self):
+        """Trigger an actuator pull action."""
         self._reset_peek_times()
         self._peek_enabled = True
         self.rest()
         self._trigger(self.STATE.PULLING)
 
     def peek(self, push_timeout, at_rest_timeout=0):
+        """Trigger an actuator peek action.
+
+        This method is meant to be called repeatedly, within a loop, e.g.
+
+        while True:
+            aa.peek(push_timeout=2, at_rest_timeout=1)
+
+        On each call, this method does one of the following:
+        a. pull (if ``at_rest_timeout`` seconds have passed since first call)
+        b. rest (if ``push_timeout`` seconds have passed since first call)
+        c. push
+
+        :keyword  push_timeout:  The timeout (seconds) of the push action.
+        :type     push_timeout:  ``float``
+
+        :keyword  at_rest_timeout:  The timeout (seconds) of the rest action.
+            (default: 0)
+        :type     at_rest_timeout:  ``float``
+        """
         self._peek_push_timeout = push_timeout
         self._peek_push_elapsed_time = 0
         self._peek_at_rest_timeout = at_rest_timeout
@@ -183,4 +245,5 @@ class AirtrackActuator:
                 self._peek_push_start_time
 
     def reset(self):
+        """Reset the actuator."""
         self.pull()
