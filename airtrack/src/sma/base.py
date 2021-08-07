@@ -1,3 +1,21 @@
+"""Airtrack state machine base module.
+
+This module provides an interface (AirtrackStateMachine) for interacting with
+the state machine of the Airtrack system.
+
+Example:
+
+    from pybpodapi.protocol import Bpod
+
+    bpod = Bpod(emulator_mode=True)
+    bpod.open()
+
+    sma = AirtrackStateMachine(bpod)
+    sma.setup()
+
+    bpod.send_state_machine(sma, ignore_emulator=True)
+    bpod.run_state_machine(sma)
+"""
 import logging
 import functools
 
@@ -28,6 +46,7 @@ def callback(state):
 
 
 class AirtrackStateMachine(StateMachine):
+    """Airtrack state machine interface."""
     DEFAULT_INIT_STATE_TIMER = 3
     DEFAULT_TRANSITION_TIMER = 0.1
 
@@ -68,6 +87,7 @@ class AirtrackStateMachine(StateMachine):
 
     @handle_error
     def setup(self):
+        """Set up the state machine."""
         self.add_state(
             State.INITIATE,
             state_timer=self.DEFAULT_INIT_STATE_TIMER,
@@ -98,5 +118,6 @@ class AirtrackStateMachine(StateMachine):
 
     @handle_error
     def clean_up(self):
+        """Clean up the state machine."""
         self._subject.clean_up()
         self._actuator.reset()
