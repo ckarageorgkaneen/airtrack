@@ -39,7 +39,7 @@ handle_error = on_error_raise(AirtrackStateMachineError, logger)
 def callback(state):
     def decorator(func):
         def wrapper(self):
-            logger.debug(f"@@@@@>>>> Calling {state} callback")
+            logger.debug(f"@@@@@@@@@>>>> Calling {state} callback")
             return func(self)
         state.callback = wrapper
         return wrapper
