@@ -7,6 +7,7 @@ cd airtrack/submodules/pixy2
 ./install.sh
 cd $cwd
 # Install pybpod-api
-pip install airtrack/submodules/pybpod-api
+pip install -r airtrack/submodules/pybpod-api/requirements.txt
+pip install -e airtrack/submodules/pybpod-api
 # Install airtrack
 pip install -e .
