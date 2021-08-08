@@ -23,13 +23,14 @@ Example:
 
     pc.close()
 """
-import sys
 import logging
 import functools
 import signal
 
 from airtrack.src.errors import err
 from airtrack.src.errors import PixyCamError
+
+from airtrack.submodules.pixy2.build.python_demos import pixy
 
 logger = logging.getLogger(__name__)
 
@@ -50,10 +51,8 @@ class PixyCam:
     @property
     def _pixy(self):
         if self.__pixy is None:
-            from airtrack.submodules.pixy2.build.python_demos import pixy
             self.__pixy = pixy
             if pixy.init() == -1:
-                sys.modules.pop('pixy')
                 err(PixyCamError, logger, message=self.CONNECT_ERROR_MSG)
             self.__pixy.change_prog(self.PROGRAM_CCC)
             self._toggle_lamp()
