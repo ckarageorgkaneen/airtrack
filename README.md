@@ -1,3 +1,3 @@
-# airtrack-pybpod
+# airtrack
 
-Implementation of the [Air-Track](http://www.neuro-airtrack.com/) protocol using [pybpod-api](https://github.com/ckarageorgkaneen/pybpod-api/) and more.
+An implementation of [Air-Track](http://www.neuro-airtrack.com/) using [PyBpod](https://github.com/ckarageorgkaneen/pybpod-api/).
