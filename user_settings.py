@@ -1,1 +1,1 @@
-from pybpod_settings import *
+from airtrack.submodules.pybpod.settings import *
