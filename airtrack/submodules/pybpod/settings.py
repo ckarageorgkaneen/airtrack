@@ -1,3 +1,4 @@
+"""User settings (pybpod-api requirement)."""
 from airtrack.settings import AIRTRACK_LOG_LEVEL
 from airtrack.settings import AIRTRACK_SESSION_PATH
 from airtrack.settings import AIRTRACK_SESSIONS_LOG_FILE
