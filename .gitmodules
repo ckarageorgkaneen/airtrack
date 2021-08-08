@@ -3,6 +3,6 @@
 	url = https://github.com/ckarageorgkaneen/pixy2.git
 	ignore = dirty
 [submodule "pybpod-api"]
-	path = airtrack/submodules/pybpod-api
+	path = airtrack/submodules/pybpod/pybpod-api
 	url = https://github.com/ckarageorgkaneen/pybpod-api.git
 	ignore = dirty
