@@ -13,7 +13,7 @@ Example:
 import logging
 
 from airtrack.src.camera.base import AirtrackCamera
-from airtrack.src.definitions.camera import AirtrackCameraObject
+
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackCameraError
 from airtrack.src.errors import AirtrackSubjectError
@@ -41,8 +41,7 @@ class AirtrackSubject:
             otherwise ``False``
         :rtype: ``bool``
         """
-        return not self._camera.detect_object(
-            AirtrackCameraObject.MOUSE_SIG_1.name)
+        return not self._camera.find_subject()
 
     def clean_up(self):
         """Clean up the object."""

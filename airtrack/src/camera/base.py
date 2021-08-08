@@ -12,8 +12,7 @@ Example:
     # Query the camera N times
     N = 500
     for i in range(N):
-        mout_detected = ac.detect_object(AirtrackCameraObject.MOUSE_SIG_1.name)
-        if mouse_detected:
+        if ac.find_subject():
             print('Mouse detected!')
             break
 
@@ -29,11 +28,7 @@ from airtrack.src.errors import AirtrackCameraError
 
 logger = logging.getLogger(__name__)
 
-handle_bad_object = on_error_raise(
-    AirtrackCameraError,
-    logger,
-    message=f'Invalid object. Must be one of: {AirtrackCameraObject}',
-    catch_error=KeyError)
+
 handle_pixy_error = on_error_raise(
     AirtrackCameraError,
     logger,
@@ -46,48 +41,24 @@ class AirtrackCamera:
     def __init__(self):
         self._pixy_cam = PixyCam()
 
-    @handle_bad_object
-    def _object(self, name):
-        return AirtrackCameraObject[name]
-
     @handle_pixy_error
     def _find_signature(self, signature):
         return self._pixy_cam.find_targets(
             [signature])
 
-    def detect_object(self, name):
-        """Detect an object by name.
+    def _find_object(self, object_enum):
+        signature = object_enum.value
+        signature_found = self._find_signature(signature)
+        return signature_found
 
-        :keyword  name:  The value of a AirtrackCameraObject enum.
-            (e.g. MOUSE_SIG_1)
-        :type     name:  ``str``
+    def find_subject(self):
+        """Find subject (e.g. mouse).
 
-        :return: ``True`` if the object was detected, otherwise ``False``
+        :return: ``True`` if the subject was found, otherwise ``False``
         :rtype: ``bool``
         """
-        signature = self._object(name).value
-        object_detected = self._find_signature(signature)
-        return object_detected
-
-    def detect_objects(self, *names, detect_any_object=False):
-        """Detect objects by name.
-
-        :keyword  names:  A list of values AirtrackCameraObject enums.
-            (e.g. MOUSE_SIG_1, MOUSE_SIG_2)
-        :type     names:  ``list`` of ``str``
-
-        :keyword  detect_any_object:  Return ``True`` if any one of the
-            objects are detected.
-        :type     detect_any_object:  ``bool``
-
-        :return: ``True`` if objects were detected, otherwise ``False``
-        :rtype: ``bool``
-        """
-
-        objects_detected = [self.detect_object(name) for name in names]
-        if detect_any_object:
-            return any(objects_detected)
-        return all(objects_detected)
+        object_found = self._find_object(AirtrackCameraObject.SUBJECT)
+        return object_found
 
     def close(self):
         """Close the camera."""
