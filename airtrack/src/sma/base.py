@@ -19,7 +19,8 @@ Example:
 import logging
 import functools
 
-import user_settings as settings
+from airtrack.settings import AIRTRACK_ACTUATOR_PUSH_TIMEOUT
+from airtrack.settings import AIRTRACK_ACTUATOR_AT_REST_TIMEOUT
 
 from airtrack.src.actuator.base import AirtrackActuator
 from airtrack.src.subject.base import AirtrackSubject
@@ -73,8 +74,8 @@ class AirtrackStateMachine(StateMachine):
     @handle_error
     def _enter_lane(self):
         self._actuator.peek(
-            push_timeout=settings.AIRTRACK_PUSH_TIMEOUT,
-            at_rest_timeout=settings.AIRTRACK_AT_REST_TIMEOUT)
+            push_timeout=AIRTRACK_ACTUATOR_PUSH_TIMEOUT,
+            at_rest_timeout=AIRTRACK_ACTUATOR_AT_REST_TIMEOUT)
 
     @callback(State.EXIT_LANE)
     @handle_error
