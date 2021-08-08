@@ -6,6 +6,8 @@ Airtrack system.
 
 Example:
 
+    from airtrack.src.camera.pixy import PixyCam
+
     pc = PixyCam()
 
     # Get detected signatures

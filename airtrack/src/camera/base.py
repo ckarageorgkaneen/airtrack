@@ -5,6 +5,8 @@ camera of the Airtrack system.
 
 Example:
 
+    from airtrack.src.camera import AirtrackCamera
+
     from airtrack.src.definitions.camera import AirtrackCameraObject
 
     ac = AirtrackCamera()
@@ -21,7 +23,7 @@ Example:
 import logging
 
 from airtrack.src.camera.pixy import PixyCam
-from airtrack.src.definitions.camera import AirtrackCameraObject
+from airtrack.src.definitions import AirtrackCameraObject
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import PixyCamError
 from airtrack.src.errors import AirtrackCameraError

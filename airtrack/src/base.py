@@ -4,6 +4,8 @@ This module provides an interface (Airtrack) for the Airtrack system.
 
 Example:
 
+    from airtrack.src import Airtrack
+
     airtrack = Airtrack(emulate=False)
     airtrack.run()
     airtrack.close()
@@ -11,7 +13,7 @@ Example:
 import logging
 import atexit
 
-from airtrack.src.sma.base import AirtrackStateMachine
+from airtrack.src.sma import AirtrackStateMachine
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackError
 

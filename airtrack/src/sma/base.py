@@ -6,6 +6,7 @@ the state machine of the Airtrack system.
 Example:
 
     from pybpodapi.protocol import Bpod
+    from airtrack.src.sma import AirtrackStateMachine
 
     bpod = Bpod(emulator_mode=True)
     bpod.open()
@@ -22,9 +23,9 @@ import functools
 from airtrack.settings import AIRTRACK_ACTUATOR_PUSH_TIMEOUT
 from airtrack.settings import AIRTRACK_ACTUATOR_AT_REST_TIMEOUT
 
-from airtrack.src.actuator.base import AirtrackActuator
-from airtrack.src.subject.base import AirtrackSubject
-from airtrack.src.definitions.sma import AirtrackState as State
+from airtrack.src.actuator import AirtrackActuator
+from airtrack.src.subject import AirtrackSubject
+from airtrack.src.definitions import AirtrackState as State
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackStateMachineError
 
