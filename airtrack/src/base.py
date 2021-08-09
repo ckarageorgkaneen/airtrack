@@ -6,7 +6,7 @@ Example:
 
     from airtrack.src import Airtrack
 
-    airtrack = Airtrack(emulate=False)
+    airtrack = Airtrack()
     airtrack.run()
     airtrack.close()
 """
@@ -27,32 +27,22 @@ handle_error = on_error_raise(AirtrackError, logger)
 class Airtrack:
     """Airtrack system interface."""
 
-    def __init__(self, emulate=True):
-        self._bpod = self._Bpod()
-        self._emulate = emulate
-        if not self._emulate:
-            self._bpod_open()
+    def __init__(self):
+        self._bpod = Bpod(emulator_mode=True)
+        self._bpod.open()
         self._sma = AirtrackStateMachine(self._bpod)
         self._sma_setup()
         # Register exit handler
         atexit.register(self.close)
 
     @handle_error
-    def _Bpod(self):
-        return Bpod(emulator_mode=True)
+    def _close(self):
+        self._bpod.close(ignore_emulator=True)
 
     @handle_error
-    def _bpod_open(self):
-        self._bpod.open()
-
-    @handle_error
-    def _bpod_close(self):
-        self._bpod.close(ignore_emulator=not self._emulate)
-
-    @handle_error
-    def _bpod_run(self):
+    def _run(self):
         self._bpod.send_state_machine(
-            self._sma, ignore_emulator=not self._emulate)
+            self._sma, ignore_emulator=True)
         self._bpod.run_state_machine(self._sma)
 
     @handle_error
@@ -65,9 +55,9 @@ class Airtrack:
 
     def run(self):
         """Run the system."""
-        self._bpod_run()
+        self._run()
 
     def close(self):
         """Close the system."""
         self._sma_clean_up()
-        self._bpod_close()
+        self._close()

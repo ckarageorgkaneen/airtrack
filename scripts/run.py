@@ -7,4 +7,5 @@ from airtrack.src import Airtrack
 
 if __name__ == '__main__':
     logging.basicConfig(level=AIRTRACK_LOG_LEVEL)
-    Airtrack(emulate=False).run()
+    airtrack = Airtrack()
+    airtrack.run()
