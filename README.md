@@ -10,7 +10,7 @@ Airtrack was first published in the paper titled "[Air-Track: a real-world float
 To run the system, follow the [use instructions](https://github.com/ckarageorgkaneen/airtrack/wiki/Use).
 
 ## Demo
-Video: https://www.youtube.com/watch?v=KBGmm1BTSU4
+See the [video](https://www.youtube.com/watch?v=KBGmm1BTSU4).
 
 ## Wiki
 See the [airtrack wiki](https://github.com/ckarageorgkaneen/airtrack/wiki).
