@@ -25,6 +25,7 @@ AIRTRACK_SESSION_NAME = datetime.datetime.fromtimestamp(
 AIRTRACK_BPOD_SERIAL_PORT = '/dev/ttyACM0'
 
 # PARAMETERS
+AIRTRACK_MAX_ACTUATOR_TIMEOUT = 5
 AIRTRACK_ACTUATOR_PUSH_TIMEOUT = 3
 # Time the actuator should remain at rest before it is pulled back
 AIRTRACK_ACTUATOR_AT_REST_TIMEOUT = 3
