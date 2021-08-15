@@ -43,35 +43,21 @@ class PixyCam:
     CONNECT_ERROR_MSG = 'Could not connect to PixyCam.'
 
     def __init__(self):
-        self.__pixy = None
-        self.__blocks = None
-        self._initiated = False
+        if pixy.init() == -1:
+            err(PixyCamError, logger, message=self.CONNECT_ERROR_MSG)
+        pixy.change_prog(self.PROGRAM_CCC)
+        self._toggle_lamp()
+        self._initiated = True
+        self._blocks = pixy.BlockArray(self.MAX_BLOCKS)
         # Register segmentation fault handler
         signal.signal(signal.SIGSEGV, functools.partial(
             err, PixyCamError, logger, message=self.CONNECT_ERROR_MSG))
 
-    @property
-    def _pixy(self):
-        if self.__pixy is None:
-            self.__pixy = pixy
-            if pixy.init() == -1:
-                err(PixyCamError, logger, message=self.CONNECT_ERROR_MSG)
-            self.__pixy.change_prog(self.PROGRAM_CCC)
-            self._toggle_lamp()
-            self._initiated = True
-        return self.__pixy
-
-    @property
-    def _blocks(self):
-        if self.__blocks is None:
-            self.__blocks = self._pixy.BlockArray(self.MAX_BLOCKS)
-        return self.__blocks
-
     def _toggle_lamp(self, on=True):
-        self._pixy.set_lamp(int(on), 0)
+        pixy.set_lamp(int(on), 0)
 
     def _get_blocks(self):
-        return self._pixy.ccc_get_blocks(100, self._blocks)
+        return pixy.ccc_get_blocks(100, self._blocks)
 
     def get_signatures(self):
         """Return a list of detected signatures.

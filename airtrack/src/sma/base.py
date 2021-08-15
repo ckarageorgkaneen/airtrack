@@ -73,12 +73,16 @@ class AirtrackStateMachine(StateMachine):
     @callback(State.ENTER_LANE)
     @handle_error
     def _enter_lane(self):
-        self._actuator.peek()
+        peek_completed = self._actuator.peek()
+        if peek_completed:
+            self._trigger_event_by_name(Bpod.Events.Serial1_3)
 
     @callback(State.EXIT_LANE)
     @handle_error
     def _exit_lane(self):
-        self._actuator.pull()
+        pull_timed_out = self._actuator.pull()
+        if pull_timed_out:
+            self._trigger_event_by_name(Bpod.Events.Serial1_3)
 
     @handle_error
     def _trigger_event_by_name(self, event_name):
@@ -103,17 +107,19 @@ class AirtrackStateMachine(StateMachine):
                 Bpod.Events.Serial1_2: State.EXIT_LANE
             })
         self.add_state(
-            state_name=State.ENTER_LANE,
-            state_timer=self.DEFAULT_TRANSITION_TIMER,
-            callback=State.ENTER_LANE.callback,
-            state_change_conditions={
-                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION})
-        self.add_state(
             state_name=State.EXIT_LANE,
             state_timer=self.DEFAULT_TRANSITION_TIMER,
             callback=State.EXIT_LANE.callback,
             state_change_conditions={
-                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION})
+                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION,
+                Bpod.Events.Serial1_3: 'exit'})
+        self.add_state(
+            state_name=State.ENTER_LANE,
+            state_timer=self.DEFAULT_TRANSITION_TIMER,
+            callback=State.ENTER_LANE.callback,
+            state_change_conditions={
+                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION,
+                Bpod.Events.Serial1_3: 'exit'})
 
     @handle_error
     def clean_up(self):

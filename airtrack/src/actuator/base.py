@@ -183,14 +183,17 @@ class AirtrackActuator:
         return self._peek_at_rest_elapsed_time >= self._peek_at_rest_timeout
 
     def _peek_pull_timed_out(self):
-        return self._peek_pull_elapsed_time >= self._peek_pull_timeout
+        return self._peek_pull_timeout == 0 or \
+            self._peek_pull_elapsed_time >= self._peek_pull_timeout
 
     def _can_peek_rest(self):
         return self._peek_push_timed_out()
 
     def _can_peek_push(self):
-        return self._peek_push_enabled and \
-            (self._peek_pull_elapsed_time == 0 or self._peek_pull_timed_out())
+        cannot_pull = self._peek_pull_elapsed_time == 0 or \
+            self._peek_pull_timeout == 0 or \
+            self._peek_pull_timed_out()
+        return self._peek_push_enabled and cannot_pull
 
     def _can_peek_pull(self):
         return self._peek_at_rest_timed_out()
@@ -244,7 +247,7 @@ class AirtrackActuator:
         self._peek_pull_timeout = self._peek_push_elapsed_time
 
     def _peek_pull(self):
-        self.pull(enable_push=False)
+        return self.pull(enable_push=False)
 
     def rest(self):
         """Trigger an actuator rest action (stop motion)."""
@@ -264,7 +267,10 @@ class AirtrackActuator:
             self._peek_pull_start_time
         self._peek_push_enabled = enable_push
         if self._peek_pull_timed_out():
+            pull_time_out_initialized = self._peek_pull_timeout != 0
             self._reset_peek_times()
+            return pull_time_out_initialized
+        return False
 
     def peek(self):
         """Trigger an actuator peek action.
@@ -281,15 +287,17 @@ class AirtrackActuator:
             since first call)
         c. push (if permitted)
         """
+        peek_completed = False
         if self._can_peek_pull():
             log_debug('PEEK PULLING')
-            self._peek_pull()
+            peek_completed = self._peek_pull()
         elif self._can_peek_rest():
             log_debug('PEEK RESTING')
             self._peek_rest()
         elif self._can_peek_push():
             log_debug('PEEK PUSHING')
             self._peek_push()
+        return peek_completed
 
     def reset(self):
         """Reset the actuator."""
