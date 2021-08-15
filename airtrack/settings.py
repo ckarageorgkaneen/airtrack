@@ -6,6 +6,7 @@ from pathlib import Path
 
 # LOGGING
 AIRTRACK_LOG_LEVEL = logging.DEBUG
+AIRTRACK_DEBUG_PREFIX = '@@@@@@@@@>>>>'
 
 # SESSIONS
 homepath = os.environ.get('HOMEPATH') or os.environ.get('HOME')

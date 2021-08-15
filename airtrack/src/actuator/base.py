@@ -31,6 +31,7 @@ Example:
 import logging
 import time
 
+from airtrack.settings import AIRTRACK_DEBUG_PREFIX
 from airtrack.settings import AIRTRACK_MAX_ACTUATOR_TIMEOUT
 from airtrack.settings import AIRTRACK_ACTUATOR_PUSH_TIMEOUT
 from airtrack.settings import AIRTRACK_ACTUATOR_AT_REST_TIMEOUT
@@ -50,6 +51,10 @@ if AIRTRACK_ACTUATOR_PUSH_TIMEOUT > AIRTRACK_MAX_ACTUATOR_TIMEOUT or \
 logger = logging.getLogger(__name__)
 
 handle_error = on_error_raise(AirtrackActuatorError, logger)
+
+
+def log_debug(message):
+    logger.debug(f'{AIRTRACK_DEBUG_PREFIX} {message}')
 
 
 class AirtrackActuator:
@@ -277,13 +282,13 @@ class AirtrackActuator:
         c. push (if permitted)
         """
         if self._can_peek_pull():
-            logger.debug('@@@@@@@@@>>>> PEEK PULLING')
+            log_debug('PEEK PULLING')
             self._peek_pull()
         elif self._can_peek_rest():
-            logger.debug('@@@@@@@@@>>>> PEEK RESTING')
+            log_debug('PEEK RESTING')
             self._peek_rest()
         elif self._can_peek_push():
-            logger.debug('@@@@@@@@@>>>> PEEK PUSHING')
+            log_debug('PEEK PUSHING')
             self._peek_push()
 
     def reset(self):

@@ -20,6 +20,8 @@ Example:
 import logging
 import functools
 
+from airtrack.settings import AIRTRACK_DEBUG_PREFIX
+
 from airtrack.src.actuator import AirtrackActuator
 from airtrack.src.subject import AirtrackSubject
 from airtrack.src.definitions import AirtrackState as State
@@ -37,7 +39,7 @@ handle_error = on_error_raise(AirtrackStateMachineError, logger)
 def callback(state):
     def decorator(func):
         def wrapper(self):
-            logger.debug(f"@@@@@@@@@>>>> Calling {state} callback")
+            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Calling {state} callback')
             return func(self)
         state.callback = wrapper
         return wrapper
