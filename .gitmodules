@@ -6,3 +6,7 @@
 	path = airtrack/submodules/pybpod/pybpod-api
 	url = https://github.com/ckarageorgkaneen/pybpod-api.git
 	ignore = dirty
+[submodule "sttp"]
+	path = airtrack/submodules/sttp
+	url = https://github.com/ckarageorgkaneen/sttp.git
+	ignore = dirty
