@@ -23,7 +23,6 @@ import functools
 from airtrack.settings import AIRTRACK_DEBUG_PREFIX
 
 from airtrack.src.actuator import AirtrackActuator
-from airtrack.src.subject import AirtrackSubject
 from airtrack.src.definitions import AirtrackState as State
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackStateMachineError
@@ -35,13 +34,15 @@ logger = logging.getLogger(__name__)
 
 handle_error = on_error_raise(AirtrackStateMachineError, logger)
 
+UNBOUND_CALLBACK_ATTR_NAME = 'unbound_callback'
+
 
 def callback(state):
     def decorator(func):
         def wrapper(self):
             logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Calling {state} callback')
             return func(self)
-        state.callback = wrapper
+        setattr(state, UNBOUND_CALLBACK_ATTR_NAME, wrapper)
         return wrapper
     return decorator
 
@@ -51,15 +52,16 @@ class AirtrackStateMachine(StateMachine):
     DEFAULT_INIT_STATE_TIMER = 3
     DEFAULT_TRANSITION_TIMER = 0.1
 
-    def __init__(self, bpod):
+    def __init__(self, bpod, subject):
         super().__init__(bpod)
         self._bpod = bpod
-        self._subject = AirtrackSubject()
+        self._subject = subject
         self._actuator = AirtrackActuator(self._bpod)
-        # Prepare state callbacks
+        # Bind `self` to state callbacks
         for s in State:
-            if hasattr(s, 'callback'):
-                s.callback = functools.partial(s.callback, self)
+            unbound_callback = getattr(s, UNBOUND_CALLBACK_ATTR_NAME, None)
+            if unbound_callback:
+                s.callback = functools.partial(unbound_callback, self)
             else:
                 s.callback = None
 
@@ -124,5 +126,4 @@ class AirtrackStateMachine(StateMachine):
     @handle_error
     def clean_up(self):
         """Clean up the state machine."""
-        self._subject.clean_up()
         self._actuator.reset()

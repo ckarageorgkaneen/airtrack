@@ -12,8 +12,12 @@ Example:
 """
 import logging
 import atexit
+import itertools
+
+from airtrack.settings import AIRTRACK_DEBUG_PREFIX
 
 from airtrack.src.sma import AirtrackStateMachine
+from airtrack.src.subject import AirtrackSubject
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import AirtrackError
 
@@ -30,8 +34,7 @@ class Airtrack:
     def __init__(self):
         self.__bpod = None
         self._bpod_closed = True
-        self._sma = AirtrackStateMachine(self._bpod)
-        self._sma_setup()
+        self._subject = AirtrackSubject()
         # Register exit handler
         atexit.register(self.close)
 
@@ -59,23 +62,29 @@ class Airtrack:
 
     @handle_error
     def _run(self):
-        self._bpod.send_state_machine(
-            self._sma, ignore_emulator=True)
+        self._sma = AirtrackStateMachine(self._bpod, self._subject)
+        self._sma.setup()
+        self._bpod.send_state_machine(self._sma, ignore_emulator=True)
         self._bpod.run_state_machine(self._sma)
 
     @handle_error
-    def _sma_setup(self):
-        self._sma.setup()
-
-    @handle_error
-    def _sma_clean_up(self):
+    def _clean_up(self):
+        self._subject.clean_up()
         self._sma.clean_up()
 
-    def run(self):
-        """Run the system."""
-        self._run()
+    def run(self, trials=None):
+        """Run the system.
+
+        :keyword  trials (optional):  Number of trials to run the system for.
+        :type     trials (optional):  ``int``
+        """
+        iterator = range(trials or 0) or itertools.count()
+        for i in iterator:
+            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Starting trial #{i}...')
+            self._run()
+            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} End of trial #{i}.')
 
     def close(self):
         """Close the system."""
-        self._sma_clean_up()
+        self._clean_up()
         self._close()
