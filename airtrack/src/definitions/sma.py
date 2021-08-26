@@ -1,8 +1,9 @@
 from enum import Enum
 
-AirtrackState = Enum('AirtrackState', [
-    'INITIATE',
-    'QUERY_SUBJECT_LOCATION',
-    'ENTER_LANE',
-    'EXIT_LANE'
-])
+from airtrack.data import utils
+
+state_transitions = utils.bpodify_state_transition_table()
+states = list(state_transitions.keys())
+AirtrackState = Enum('AirtrackState', states)
+for state in AirtrackState:
+    state.transitions = state_transitions[state.name]
