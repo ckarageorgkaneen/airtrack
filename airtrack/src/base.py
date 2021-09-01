@@ -10,11 +10,10 @@ Example:
     airtrack.run()
     airtrack.close()
 """
-import logging
 import atexit
 import itertools
 
-from airtrack.settings import AIRTRACK_DEBUG_PREFIX
+from airtrack.src import utils
 
 from airtrack.src.sma import AirtrackStateMachine
 from airtrack.src.subject import AirtrackSubject
@@ -23,7 +22,7 @@ from airtrack.src.errors import AirtrackError
 
 from pybpodapi.protocol import Bpod
 
-logger = logging.getLogger(__name__)
+logger = utils.create_logger(__name__)
 
 handle_error = on_error_raise(AirtrackError, logger)
 
@@ -81,9 +80,9 @@ class Airtrack:
         iterator = range(trials or 0) or itertools.count()
         for i in iterator:
             trial = i + 1
-            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Starting trial #{trial}...')
+            logger.debug(f'Starting trial #{trial}...')
             self._run()
-            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} End of trial #{trial}.')
+            logger.debug(f'End of trial #{trial}.')
 
     def close(self):
         """Close the system."""

@@ -17,10 +17,9 @@ Example:
     bpod.send_state_machine(sma, ignore_emulator=True)
     bpod.run_state_machine(sma)
 """
-import logging
 import functools
 
-from airtrack.settings import AIRTRACK_DEBUG_PREFIX
+from airtrack.src import utils
 
 from airtrack.src.actuator import AirtrackActuator
 from airtrack.src.definitions import AirtrackState as State
@@ -30,7 +29,7 @@ from airtrack.src.errors import AirtrackStateMachineError
 from pybpodapi.protocol import Bpod
 from pybpodapi.protocol import StateMachine
 
-logger = logging.getLogger(__name__)
+logger = utils.create_logger(__name__)
 
 handle_error = on_error_raise(AirtrackStateMachineError, logger)
 
@@ -40,7 +39,7 @@ UNBOUND_CALLBACK_ATTR_NAME = 'unbound_callback'
 def callback(state):
     def decorator(func):
         def wrapper(self):
-            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Calling {state} callback')
+            logger.debug(f'Calling {state} callback')
             return func(self)
         setattr(state, UNBOUND_CALLBACK_ATTR_NAME, wrapper)
         return wrapper

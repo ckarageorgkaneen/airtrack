@@ -25,16 +25,17 @@ Example:
 
     pc.close()
 """
-import logging
 import functools
 import signal
+
+from airtrack.src import utils
 
 from airtrack.src.errors import err
 from airtrack.src.errors import PixyCamError
 
 from airtrack.submodules.pixy2.build.python_demos import pixy
 
-logger = logging.getLogger(__name__)
+logger = utils.create_logger(__name__)
 
 
 class PixyCam:

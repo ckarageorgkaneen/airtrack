@@ -28,13 +28,13 @@ Example:
         aa.peek()
 
 """
-import logging
 import time
 
-from airtrack.settings import AIRTRACK_DEBUG_PREFIX
 from airtrack.settings import AIRTRACK_MAX_ACTUATOR_TIMEOUT
 from airtrack.settings import AIRTRACK_ACTUATOR_PUSH_TIMEOUT
 from airtrack.settings import AIRTRACK_ACTUATOR_AT_REST_TIMEOUT
+
+from airtrack.src import utils
 
 from airtrack.src.definitions import AirtrackActuatorState
 from airtrack.src.errors import AirtrackActuatorError
@@ -48,13 +48,9 @@ if AIRTRACK_ACTUATOR_PUSH_TIMEOUT > AIRTRACK_MAX_ACTUATOR_TIMEOUT or \
         'Actuator push or at rest timeouts exceed maximum of'
         f'{AIRTRACK_MAX_ACTUATOR_TIMEOUT} sec.')
 
-logger = logging.getLogger(__name__)
+logger = utils.create_logger(__name__)
 
 handle_error = on_error_raise(AirtrackActuatorError, logger)
-
-
-def log_debug(message):
-    logger.debug(f'{AIRTRACK_DEBUG_PREFIX} {message}')
 
 
 class AirtrackActuator:
@@ -249,19 +245,25 @@ class AirtrackActuator:
     def _peek_pull(self):
         return self.pull(enable_push=False)
 
+    def _rest(self):
+        self._trigger(self.STATE.AT_REST)
+
     def rest(self):
         """Trigger an actuator rest action (stop motion)."""
-        self._trigger(self.STATE.AT_REST)
+        logger.debug('RESTING...')
+        self._rest()
 
     def push(self):
         """Trigger an actuator push action."""
-        self.rest()
+        logger.debug('PUSHING...')
+        self._rest()
         self._trigger(self.STATE.PUSHING)
 
     def pull(self, enable_push=True):
         """Trigger an actuator pull action."""
+        logger.debug('PULLING...')
         self._peek_pull_start_time = time.time()
-        self.rest()
+        self._rest()
         self._trigger(self.STATE.PULLING)
         self._peek_pull_elapsed_time = time.time() - \
             self._peek_pull_start_time
@@ -289,13 +291,10 @@ class AirtrackActuator:
         """
         peek_completed = False
         if self._can_peek_pull():
-            log_debug('PEEK PULLING')
             peek_completed = self._peek_pull()
         elif self._can_peek_rest():
-            log_debug('PEEK RESTING')
             self._peek_rest()
         elif self._can_peek_push():
-            log_debug('PEEK PUSHING')
             self._peek_push()
         return peek_completed
 

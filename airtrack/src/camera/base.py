@@ -20,15 +20,14 @@ Example:
 
     ac.close()
 """
-import logging
-
+from airtrack.src import utils
 from airtrack.src.camera.pixy import PixyCam
 from airtrack.src.definitions import AirtrackCameraObject
 from airtrack.src.errors import on_error_raise
 from airtrack.src.errors import PixyCamError
 from airtrack.src.errors import AirtrackCameraError
 
-logger = logging.getLogger(__name__)
+logger = utils.create_logger(__name__)
 
 
 handle_pixy_error = on_error_raise(
