@@ -48,7 +48,6 @@ def callback(state):
 
 class AirtrackStateMachine(StateMachine):
     """Airtrack state machine interface."""
-    DEFAULT_INIT_STATE_TIMER = 3
     DEFAULT_TRANSITION_TIMER = 0.1
 
     def __init__(self, bpod, subject):
