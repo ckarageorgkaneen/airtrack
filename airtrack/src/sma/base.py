@@ -19,6 +19,8 @@ Example:
 """
 import functools
 
+from airtrack.settings import AIRTRACK_STATE_TIMER
+
 from airtrack.src import utils
 
 from airtrack.src.actuator import AirtrackActuator
@@ -48,7 +50,6 @@ def callback(state):
 
 class AirtrackStateMachine(StateMachine):
     """Airtrack state machine interface."""
-    DEFAULT_TRANSITION_TIMER = 0.1
 
     def __init__(self, bpod, subject):
         super().__init__(bpod)
@@ -114,7 +115,7 @@ class AirtrackStateMachine(StateMachine):
                     for other_state, event in state_transitions}
             self.add_state(
                 state.name,
-                state_timer=state_timer or self.DEFAULT_TRANSITION_TIMER,
+                state_timer=state_timer or AIRTRACK_STATE_TIMER,
                 callback=state.callback,
                 state_change_conditions=state_change_conditions)
 
