@@ -40,7 +40,7 @@ def callback(state):
     def decorator(func):
         def wrapper(self):
             logger.debug(f'Calling {state} callback')
-            return func(self)
+            return func(self, state)
         setattr(state, UNBOUND_CALLBACK_ATTR_NAME, wrapper)
         return wrapper
     return decorator
@@ -66,24 +66,29 @@ class AirtrackStateMachine(StateMachine):
 
     @callback(State.QUERY_SUBJECT_LOCATION)
     @handle_error
-    def _query_subject_location(self):
-        self._trigger_event_by_name(Bpod.Events.Serial1_1
-                                    if self._subject.is_inside_lane() else
-                                    Bpod.Events.Serial1_2)
+    def _query_subject_location(self, state):
+        if self._subject.is_inside_lane():
+            dest_state_name = State.ENTER_LANE.name
+        else:
+            dest_state_name = State.EXIT_LANE.name
+        event = state.transitions[dest_state_name]
+        self._trigger_event_by_name(event)
 
     @callback(State.ENTER_LANE)
     @handle_error
-    def _enter_lane(self):
+    def _enter_lane(self, state):
         peek_completed = self._actuator.peek()
         if peek_completed:
-            self._trigger_event_by_name(Bpod.Events.Serial1_3)
+            event = state.transitions['exit']
+            self._trigger_event_by_name(event)
 
     @callback(State.EXIT_LANE)
     @handle_error
-    def _exit_lane(self):
+    def _exit_lane(self, state):
         pull_timed_out = self._actuator.pull()
         if pull_timed_out:
-            self._trigger_event_by_name(Bpod.Events.Serial1_3)
+            event = state.transitions['exit']
+            self._trigger_event_by_name(event)
 
     @handle_error
     def _trigger_event_by_name(self, event_name):
@@ -92,35 +97,15 @@ class AirtrackStateMachine(StateMachine):
     @handle_error
     def setup(self):
         """Set up the state machine."""
-        self.add_state(
-            State.INITIATE,
-            state_timer=self.DEFAULT_INIT_STATE_TIMER,
-            callback=State.INITIATE.callback,
-            state_change_conditions={
-                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION,
-            })
-        self.add_state(
-            state_name=State.QUERY_SUBJECT_LOCATION,
-            state_timer=self.DEFAULT_TRANSITION_TIMER,
-            callback=State.QUERY_SUBJECT_LOCATION.callback,
-            state_change_conditions={
-                Bpod.Events.Serial1_1: State.ENTER_LANE,
-                Bpod.Events.Serial1_2: State.EXIT_LANE
-            })
-        self.add_state(
-            state_name=State.EXIT_LANE,
-            state_timer=self.DEFAULT_TRANSITION_TIMER,
-            callback=State.EXIT_LANE.callback,
-            state_change_conditions={
-                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION,
-                Bpod.Events.Serial1_3: 'exit'})
-        self.add_state(
-            state_name=State.ENTER_LANE,
-            state_timer=self.DEFAULT_TRANSITION_TIMER,
-            callback=State.ENTER_LANE.callback,
-            state_change_conditions={
-                Bpod.Events.Tup: State.QUERY_SUBJECT_LOCATION,
-                Bpod.Events.Serial1_3: 'exit'})
+        for state in State:
+            self.add_state(
+                state.name,
+                state_timer=self.DEFAULT_TRANSITION_TIMER,
+                callback=state.callback,
+                state_change_conditions={
+                    event if isinstance(event, str)
+                    else Bpod.Events.Tup: other_state
+                    for other_state, event in state.transitions.items()})
 
     @handle_error
     def clean_up(self):
