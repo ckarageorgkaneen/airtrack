@@ -98,14 +98,26 @@ class AirtrackStateMachine(StateMachine):
     def setup(self):
         """Set up the state machine."""
         for state in State:
-            self.add_state(
-                state.name,
-                state_timer=self.DEFAULT_TRANSITION_TIMER,
-                callback=state.callback,
-                state_change_conditions={
+            state_timer = None
+            state_transitions = state.transitions.items()
+            if len(state_transitions) == 1:
+                other_state, event = next(iter(state_transitions))
+                if isinstance(event, (int, float)):
+                    state_timer = event
+                    bpod_event = Bpod.Events.Tup
+                else:
+                    bpod_event = event
+                state_change_conditions = {bpod_event: other_state}
+            else:
+                state_change_conditions = {
                     event if isinstance(event, str)
                     else Bpod.Events.Tup: other_state
-                    for other_state, event in state.transitions.items()})
+                    for other_state, event in state_transitions}
+            self.add_state(
+                state.name,
+                state_timer=state_timer or self.DEFAULT_TRANSITION_TIMER,
+                callback=state.callback,
+                state_change_conditions=state_change_conditions)
 
     @handle_error
     def clean_up(self):
