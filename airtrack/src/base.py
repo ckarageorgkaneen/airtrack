@@ -23,7 +23,7 @@ from airtrack.src.errors import AirtrackError
 
 from pybpodapi.protocol import Bpod
 
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 
 handle_error = on_error_raise(AirtrackError, logger)
 
@@ -80,9 +80,10 @@ class Airtrack:
         """
         iterator = range(trials or 0) or itertools.count()
         for i in iterator:
-            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Starting trial #{i}...')
+            trial = i + 1
+            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} Starting trial #{trial}...')
             self._run()
-            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} End of trial #{i}.')
+            logger.debug(f'{AIRTRACK_DEBUG_PREFIX} End of trial #{trial}.')
 
     def close(self):
         """Close the system."""
