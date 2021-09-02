@@ -7,7 +7,7 @@ from airtrack.submodules.sttp.sttp import STTP
 from pybpodapi.protocol import Bpod
 
 STATE_TRANSITION_TABLE_FILENAME = 'state_transition_table.csv'
-STATE_MACHINE_VISUALIZATION_FILENAME = 'state_machine.pdf'
+STATE_MACHINE_VISUALIZATION_FILENAME = 'state_diagram.pdf'
 STATE_TRANSITION_TABLE_FILE = os.path.join(
     os.path.dirname(__file__), STATE_TRANSITION_TABLE_FILENAME)
 
