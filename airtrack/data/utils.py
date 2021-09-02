@@ -1,10 +1,13 @@
 import os
 
+import airtrack
+
 from airtrack.submodules.sttp.sttp import STTP
 
 from pybpodapi.protocol import Bpod
 
 STATE_TRANSITION_TABLE_FILENAME = 'state_transition_table.csv'
+STATE_MACHINE_VISUALIZATION_FILENAME = 'state_machine.pdf'
 STATE_TRANSITION_TABLE_FILE = os.path.join(
     os.path.dirname(__file__), STATE_TRANSITION_TABLE_FILENAME)
 
@@ -25,6 +28,12 @@ def read_state_transition_table():
     :rtype: ``dict``
     """
     sttp = STTP(stt_csv_file=STATE_TRANSITION_TABLE_FILE)
+    resources_dir = os.path.join(
+        os.path.dirname(airtrack.__path__.__dict__['_path'][0]),
+        'resources')
+    state_machine_file = os.path.join(
+        resources_dir, STATE_MACHINE_VISUALIZATION_FILENAME)
+    sttp.visualize(filename=state_machine_file)
     return sttp.dictify()
 
 
