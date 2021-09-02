@@ -19,6 +19,7 @@ cd ${CWD}
 pip install -r "$PYBPOD_API_PATH/requirements.txt"
 pip install -e $PYBPOD_API_PATH
 # Install sttp
+sudo apt install graphviz
 pip install -r "$STTP_PATH/requirements.txt"
 # Install airtrack
 pip install -e .
