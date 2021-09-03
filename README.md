@@ -1,5 +1,7 @@
 # airtrack
 
+![](https://github.com/ckarageorgkaneen/airtrack/blob/master/resources/logo.jpg)
+
 An implementation of [Air-Track](http://www.neuro-airtrack.com/) using [PyBpod](https://github.com/ckarageorgkaneen/pybpod-api/).
 
 Airtrack was first published in the paper titled "[Air-Track: a real-world floating environment for active sensing in head-fixed mice in Journal of Neurophysiology](http://jn.physiology.org/content/116/4/1542)". The paper can also be found on [ResearchGate](https://www.researchgate.net/publication/305343221_Air-Track_A_real-world_floating_environment_for_active_sensing_in_head-fixed_mice).
@@ -10,10 +12,10 @@ Airtrack was first published in the paper titled "[Air-Track: a real-world float
 To run the system, follow the [instructions](https://github.com/ckarageorgkaneen/airtrack/wiki/Use).
 
 ## Demo
-See the [video](https://www.youtube.com/watch?v=KBGmm1BTSU4).
+See the [demo video](https://github.com/ckarageorgkaneen/airtrack/wiki/Demo).
+
+## Improvement ideas
+Check out the [improvements page](https://github.com/ckarageorgkaneen/airtrack/wiki/Future-improvements).
 
 ## Wiki
 See the [airtrack wiki](https://github.com/ckarageorgkaneen/airtrack/wiki).
-
-## Note
-This is still a work in progress.
