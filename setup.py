@@ -1,15 +1,18 @@
 from setuptools import setup
 
-VERSION = '1.0'
-LICENSE = None
-URL = None
+
+def readme():
+    with open('README.md') as f:
+        return f.read()
+
 
 setup(
     name='airtrack',
-    version=VERSION,
+    version='1.0',
     packages=['airtrack'],
     author=['Chris Karageorgiou Kaneen'],
     author_email='ckarageorgkaneen@gmail.com',
-    license=LICENSE,
-    url=URL,
+    long_description=readme(),
+    license_files=('LICENSE',),
+    url='https://github.com/ckarageorgkaneen/airtrack',
 )
