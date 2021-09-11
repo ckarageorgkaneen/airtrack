@@ -4,6 +4,8 @@ import time
 import logging
 from pathlib import Path
 
+import graphviz
+
 # LOGGING
 AIRTRACK_LOG_LEVEL = logging.DEBUG
 AIRTRACK_DEBUG_PREFIX = '@@@@@@@@@>>>>'
@@ -26,6 +28,8 @@ AIRTRACK_SESSION_NAME = datetime.datetime.fromtimestamp(
 AIRTRACK_BPOD_SERIAL_PORT = '/dev/ttyACM0'
 
 # STATE MACHINE
+AIRTRACK_STATE_DIAGRAM_FORMATS = ['png', 'pdf', 'svg']
+assert set(AIRTRACK_STATE_DIAGRAM_FORMATS) <= set(graphviz.backend.FORMATS)
 AIRTRACK_STATE_TIMER = 0.1
 
 # PARAMETERS
