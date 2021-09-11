@@ -1,0 +1,43 @@
+Id,Name,Shape Library,Page ID,Contained By,Group,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1
+1,Page,,,,,,,,,Page 1
+2,Rectangle,Geometric Shapes,1,,,,,,,PixyCam
+3,Rectangle,Geometric Shapes,1,,,,,,,Arduino Uno
+4,Rectangle,Geometric Shapes,1,,,,,,,Bpod
+5,Top to Top,Process Engineering,1,,,,,,,
+6,Top to Top,Process Engineering,1,,,,,,,
+7,Top to Top,Process Engineering,1,,,,,,,
+8,Top to Top,Process Engineering,1,,,,,,,
+9,Rectangle,Geometric Shapes,1,,,,,,,Computer
+10,Text,Standard,1,,,,,,,IN1
+11,Text,Standard,1,,,,,,,IN2
+12,Text,Standard,1,,,,,,,OUT1
+13,Text,Standard,1,,,,,,,OUT2
+14,Rectangle,Geometric Shapes,1,,,,,,,L293DNE
+15,Text,Standard,1,,,,,,,Vcc2
+16,Text,Standard,1,,,,,,,Vcc1 
+17,Text,Standard,1,,,,,,,GND 
+18,Text,Standard,1,,,,,,,GND 
+19,Text,Standard,1,,,,,,,Control1
+20,Vacuum Pump,Process Engineering,1,,,,,,,
+21,Text,Standard,1,,,,,,,Out1
+22,Text,Standard,1,,,,,,,Out2
+23,Text,Standard,1,,,,,,,GND 
+24,Text,Standard,1,,,,,,,5V
+25,Text,Standard,1,,,,,,,In1
+26,Text,Standard,1,,,,,,,In2
+27,Text,Standard,1,,,,,,,~5
+28,Text,Standard,1,,,,,,,Actuator
+29,Line,,1,,,4,9,None,Arrow,USB
+30,Line,,1,,,2,9,None,Arrow,USB
+31,Line,,1,,,21,20,None,None,
+32,Line,,1,,,22,20,None,None,
+33,Line,,1,,,23,18,None,None,
+34,Line,,1,,,14,3,None,None,
+35,Line,,1,,,6,,None,None,BNC
+36,Line,,1,,,,25,None,None,
+37,Line,,1,,,5,,None,None,BNC
+38,Line,,1,,,5,26,None,None,
+39,Line,,1,,,36,14,None,None,
+40,Line,,1,,,5,14,None,None,
+41,Line,,1,,,27,19,None,None,
+42,Line,,1,,,3,9,None,Arrow,USB
